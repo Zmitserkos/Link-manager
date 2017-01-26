@@ -32,7 +32,8 @@ var linkSchema = new Schema({
   },
   counter: {
     type: Number,
-    default: 0
+    default: 0,
+    required: true
   }
 }, {safe: null});
 

@@ -1,6 +1,22 @@
 
 module.exports = function(app) {
 
+  app.use(function (req, res, next) {
+    if (req.url[1]==="2") {
+      console.log("urll22l: "+req.url+"   "+req.url[1]);
+      var buttonsPath = "user-buttons";
+      var modalsPath = "modals/guest-modals";
+
+      //res.render('homepage', {topButtons: buttonsPath, modals: modalsPath});
+      //res.send({});
+
+      return res.redirect('http://htmlbook.ru/html/button/type');
+    } else {
+      next();
+    }
+
+  });
+
   // Home page
   app.get('/', require('./homepage').get);
 

@@ -32,9 +32,9 @@ mainApp.factory('dataService', function($http) {
     searchMode: null,
     createMode: null,
 
-    showTagsList: null,
+//showTagsList: null,
 
-    user: {username: "Guest", totalLinks: 0, totalClicks: 2},
+    user: {username: "Guest", totalLinks: 0, totalClicks: 0},
 
     linksList: [/*{url: "https://jamtrackcentral.com/artists/alex-hutchings/",
                  shortUrl: "te.st/2aaa234", views: 0, description: "Alex Hutchings",
@@ -77,6 +77,7 @@ mainApp.factory('dataService', function($http) {
     addToLinksList: function (linkObj) {
       var model = this;
 debugger;
+console.log("kolbasa");
       model.currLink = {};
 
       for (var key in linkObj) {

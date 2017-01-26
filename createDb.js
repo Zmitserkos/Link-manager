@@ -76,17 +76,17 @@ function createLinks(callback) {
 
   var links= [
     {/*shortUrl: "te.st/2aaa234",*/ url: "https: //jamtrackcentral.com/artists/alex-hutchings/",
-     description: "Alex Hutchings", tags: ["jtc", "hutchings", "guitar", "fusion"], username: "user04"},
+     description: "Alex Hutchings", tags: ["jtc", "hutchings", "guitar", "fusion"], username: "user04", counter: 0},
     {/*shortUrl: "te.st/2bbb345",*/ url: "https: //jamtrackcentral.com/artists/guthrie-govan/",
-     counter: 5, description: "", tags: ["licks", "govan", "guitar", "fusion"], username: "user02"},
+     counter: 5, description: "", tags: ["licks", "govan", "guitar", "fusion"], username: "user02", counter: 0},
     {/*shortUrl: "te.st/233aaaa",*/ url: "https: //jamtrackcentral.com/artists/martin-miller/",
-     counter: 4, description: "new year games", tags: ["guitar", "fusion"], username: "user01"},
+     counter: 4, description: "new year games", tags: ["guitar", "fusion"], username: "user01", counter: 0},
     {/*shortUrl: "te.st/2ggggaa",*/ url: "https: //jamtrackcentral.com/artists/marco-sfogli/",
-     description: "", tags: ["jtc", "metal", "guitar"], username: "user01"},
+     description: "", tags: ["jtc", "metal", "guitar"], username: "user01", counter: 0},
     {/*shortUrl: "te.st/27777aa",*/ url: "https: //docs.npmjs.com/files/package.json",
-     description: "", tags: ["npm", "package"], username: "user01"},
+     description: "", tags: ["npm", "package"], username: "user01", counter: 0},
     {/*shortUrl: "te.st/23377bb",*/ url: "http: //www.w3schools.com/angular/angular_animations.asp",
-     description: "", tags: ["angular", "animation"], username: "user02"}
+     description: "", tags: ["angular", "animation"], username: "user02", counter: 0}
   ];
 
   async.each(links, function (linkData, callback) {

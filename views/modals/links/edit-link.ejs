@@ -8,11 +8,11 @@
       </div>
 
       <div class="modal-body">
-        <form ng-submit="saveLink()">
+        <form ng-submit="linkManagerModel.createMode ? createLink() : saveLink()">
           <span class="modal-warning-text" ng-show="showErrorText">{{errorText}}</span>
 
           <p class="modal-input-title">INPUT LONG URL</p>
-          <textarea class="modal-input-text long-url-modal" ng-model="linkManagerModel.newLink.url"></textarea>
+          <textarea class="modal-input-text long-url-modal" ng-readonly="!linkManagerModel.createMode" ng-model="linkManagerModel.newLink.url"></textarea>
 
           <p class="modal-input-title">SHORT URL</p>
           <textarea class="modal-input-text short-url-modal" readonly ng-model="linkManagerModel.newLink.shortUrl"></textarea>
@@ -24,7 +24,7 @@
             <div class="tags-container-modal">
 
               <p class="modal-input-title tag-title-modal">TAGS</p>
-              <div class="modal-tag" ng-repeat="tag in linkManagerModel.newLink.tags" ng-show="linkManagerModel.showTagsList[$index]">
+              <div class="modal-tag" ng-repeat="tag in linkManagerModel.newLink.tags" ng-show="showTagsList[$index]">
                 <span>{{tag}}</span>
                 <button class="modal-tag-del-btn" type="button" ng-click="delTag($index)">×</button>
               </div>

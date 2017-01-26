@@ -8,7 +8,7 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
   $scope.errorText = '';
   $scope.showErrorText = false;
 
-  $scope.showTagsList = $scope.linkManagerModel.showTagsList;
+  $scope.showTagsList = [];
 
   $scope.newTag = null;
 
@@ -27,86 +27,100 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
   }
 
   $scope.saveLink = function () {
+    debugger;
+    var objectToSend = {id: $scope.linkManagerModel.currLink.id};
 
-    if ($scope.linkManagerModel.createMode) { // create mode
+    var newTagList = $scope.linkManagerModel.newLink.tags.filter(function(item, index) {
+      return $scope.showTagsList[index] > 0;
+    });
 
-      if ($scope.linkManagerModel.newLink.url) {
-
-        /*var validUrl = $scope.linkManagerModel.checkValidUrl($scope.linkManagerModel.newLink.url);
-
-        if (!validUrl) {
-          $scope.errorText = 'Enter a valid URL!';
-          $scope.showErrorText = false;
-        }
-*/
-
-        $scope.linkManagerModel.newLink.shortUrl = $scope.createLink($scope.linkManagerModel.newLink.url);
-
-        if ($scope.linkManagerModel.newLink.shortUrl) {
-          $scope.linkManagerModel.newLink.tags = [];
-
-          $scope.linkManagerModel.showTagsList = [];
-
-          $scope.linkManagerModel.createMode = false;
-        }
-      }
-      return;
-    } else { // edit mode
-
-      var newTagList = $scope.linkManagerModel.linksList[$scope.linkManagerModel.currLinkIndex].tags.filter(function(item, index) {
-        return $scope.linkManagerModel.showTagsList[index] > 0;
-      });
+    if ($scope.linkManagerModel.currLink.description !== $scope.linkManagerModel.newLink.description) {
+      $scope.linkManagerModel.currLink.description = $scope.linkManagerModel.newLink.description;
+      objectToSend.description = $scope.linkManagerModel.newLink.description;
     }
 
+    // possible two arrays comparison
+    $scope.linkManagerModel.currLink.tags = [].concat(newTagList);
 
-
-    debugger;
-  }
-
-
-
-  $scope.createLink = function (url) {
+    objectToSend.tags = [].concat(newTagList);
 
     $http({
       method: 'POST',
-      url: '/newlink',
-      data: {url: url}
+      url: '/link',
+      data: objectToSend
     }).then(function successCallback(response) {
-      $scope.linkManagerModel.newLink.id = response.data._id;
-      $scope.linkManagerModel.newLink.shortUrl = "te.st/2" + response.data.shortUrlCode.toString(36);
 
-      $scope.linkManagerModel.newLink.userName = $scope.linkManagerModel.user.username;
-
-      if ($scope.linkManagerModel.newLink.description || $scope.linkManagerModel.newLink.tags) {
-        $scope.linkManagerModel.newLink.description = response.data.description;
-        $scope.linkManagerModel.newLink.tags = response.data.tags;
-        $scope.linkManagerModel.newLink.counter = response.data.counter;
-      } else {
-        $scope.linkManagerModel.newLink.description = "";
-        $scope.linkManagerModel.newLink.tags = [];
-        $scope.linkManagerModel.newLink.counter = 0;
-      }
-
-      $scope.linkManagerModel.addToLinksList($scope.linkManagerModel.newLink);
-debugger;
     }, function errorCallback(response) {
-debugger;
-      /*$scope.errorText = response.data;
+/*$scope.errorText = response.data;
       $scope.showErrorText = true;*/
     });
 
-  }
+    $('#editLinkModal').modal('hide');
+    $scope.close();
+  } // saveLink
+
+  $scope.createLink = function () {
+
+    if ($scope.linkManagerModel.newLink.url) {
+      var url = $scope.linkManagerModel.newLink.url;
+
+      /*var validUrl = $scope.linkManagerModel.checkValidUrl($scope.linkManagerModel.newLink.url);
+
+      if (!validUrl) {
+        $scope.errorText = 'Enter a valid URL!';
+        $scope.showErrorText = false;
+      }
+*/
+      $http({
+        method: 'POST',
+        url: '/newlink',
+        data: {url: url}
+      }).then(function successCallback(response) {
+        $scope.linkManagerModel.newLink.id = response.data._id;
+        $scope.linkManagerModel.newLink.shortUrl = "te.st/2" + response.data.shortUrlCode.toString(36);
+        $scope.linkManagerModel.newLink.counter = response.data.counter;
+
+        $scope.linkManagerModel.newLink.userName = $scope.linkManagerModel.user.username;
+
+        if (response.data.description) {
+          $scope.linkManagerModel.newLink.description = response.data.description;
+        } else {
+          $scope.linkManagerModel.newLink.description = "";
+        }
+
+        if (response.data.tags) {
+          $scope.linkManagerModel.newLink.tags = response.data.tags;
+          $scope.showTagsList = response.data.tags.map(function () {
+            return 1;
+          });
+        } else {
+          $scope.linkManagerModel.newLink.tags = [];
+          $scope.showTagsList = [];
+        }
+
+        $scope.linkManagerModel.addToLinksList($scope.linkManagerModel.newLink);
+
+        $scope.linkManagerModel.createMode = false;
+
+        $scope.linkManagerModel.user.totalLinks++;
+      }, function errorCallback(response) {
+  /*$scope.errorText = response.data;
+        $scope.showErrorText = true;*/
+      });
+    }
+  } // createLink
 
   $scope.delTag = function (index) {
-    $scope.linkManagerModel.showTagsList[index] = 0;
+    $scope.showTagsList[index] = 0;
   }
 
   $scope.addTag = function () {
+
     if ($scope.newTag) {
       // tag in the list must be unique
       if($scope.linkManagerModel.findFunc($scope.linkManagerModel.newLink.tags, $scope.newTag) < 0) {
         $scope.linkManagerModel.newLink.tags.push($scope.newTag);
-        $scope.linkManagerModel.showTagsList.push(1);
+        $scope.showTagsList.push(1);
       }
 
       $scope.newTag = null;
