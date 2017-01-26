@@ -8,7 +8,7 @@
       </div>
 
       <div class="modal-body">
-        <form ng-submit="linkManagerModel.createMode ? createLink() : saveLink()">
+        <form onkeypress="return event.keyCode != 13;" ng-submit="linkManagerModel.createMode ? createLink() : saveLink()">
           <span class="modal-warning-text" ng-show="showErrorText">{{errorText}}</span>
 
           <p class="modal-input-title">INPUT LONG URL</p>
@@ -30,7 +30,7 @@
               </div>
 
             </div>
-            <input class="modal-input modal-tag-input" ng-model="newTag"></input>
+            <input class="modal-input modal-tag-input" ng-model="newTag" ng-keypress="enterTag($event)"></input>
             <button class="modal-tag-btn" type="button" ng-click="addTag()">ADD</button>
           </div>
 

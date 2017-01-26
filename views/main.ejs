@@ -24,7 +24,7 @@
           <a href="/"><div id="main-logo">Te.sT</div></a>
 
           <div class="visible-xs">
-            <span class="auth-text"><b>{{linkManagerModel.user.username}}</b></span>
+            <span class="auth-text"><b>{{linkManagerModel.user.username}}</b> <i class="fa fa-user-o fa-lg">&nbsp;</i></span>
           </div>
 
         </div>
@@ -70,9 +70,6 @@
               Short URL: <b class="main-info-data">{{linkManagerModel.currLink.shortUrl}}</b>
             </p>
             <p class="main-info-text">
-              Clicks: <b class="main-info-data">{{linkManagerModel.currLink.counter}}</b>
-            </p>
-            <p class="main-info-text">
               Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>
             </p>
             <p class="main-info-text">
@@ -82,6 +79,14 @@
               Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
                       <b class="main-info-data"><a style="margin: 0 6px; color: orange;">{{tag}}</a></b>
                     </span>
+            </p>
+            <p class="main-info-text">
+              Author: <span>
+                        <b class="main-info-data">{{linkManagerModel.currLink.username}}</b>
+                      </span>
+            </p>
+            <p class="main-info-text">
+              Clicks: <b class="main-info-data">{{linkManagerModel.currLink.counter}}</b>
             </p>
 
           </div>
@@ -102,9 +107,6 @@
             <button type="button" style="color: white; background: rgba(255, 140, 10, 1); border: 1px solid rgba(120, 120, 120, 1); border-radius: 6px;">Edit</button>
           </p>
           <p class="main-container-text">
-            Clicks: <b class="main-info-data">{{linkManagerModel.currLink.counter}}</b>
-          </p>
-          <p class="main-container-text">
             Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>
           </p>
           <p class="main-container-text">
@@ -115,6 +117,14 @@
                     <b class="main-info-data"
                        style="margin: 5px; color: white; background: orange; border-radius: 6px; padding: 3px;">{{tag}}</b>
                   </span>
+          </p>
+          <p class="main-container-text">
+            Author: <span>
+                      <b class="main-info-data">{{linkManagerModel.currLink.username}}</b>
+                    </span>
+          </p>
+          <p class="main-container-text">
+            Clicks: <b class="main-info-data">{{linkManagerModel.currLink.counter}}</b>
           </p>
         </div>
       </div>

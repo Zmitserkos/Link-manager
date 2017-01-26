@@ -1,21 +1,8 @@
 
 module.exports = function(app) {
 
-  app.use(function (req, res, next) {
-    if (req.url[1]==="2") {
-      console.log("urll22l: "+req.url+"   "+req.url[1]);
-      var buttonsPath = "user-buttons";
-      var modalsPath = "modals/guest-modals";
-
-      //res.render('homepage', {topButtons: buttonsPath, modals: modalsPath});
-      //res.send({});
-
-      return res.redirect('http://htmlbook.ru/html/button/type');
-    } else {
-      next();
-    }
-
-  });
+  // redirect
+  app.use(require('./redirect').use);
 
   // Home page
   app.get('/', require('./homepage').get);
@@ -32,6 +19,8 @@ module.exports = function(app) {
   app.get('/main', require('./main').get);
 
   app.get('/link', require('./link').get);
+
+  app.post('/link', require('./link').post); 
 
   //
   app.post('/newlink', require('./newlink').post);

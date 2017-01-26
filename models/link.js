@@ -20,10 +20,10 @@ var linkSchema = new Schema({
     type: String,
     required: true
   },
-  /*userId: {
-    type: Object,
+  userId: {
+    type: Schema.Types.ObjectId,
     required: true
-  },*/
+  },
   description: {
     type: String
   },

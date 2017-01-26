@@ -24,6 +24,7 @@ mainApp.factory('dataService', function($http) {
     newLink: null,
     currLink: null,
     currLinkIndex: 0,
+    currAuthor: null,
 
     queryText: null,
     queryType: "URL",
@@ -32,34 +33,9 @@ mainApp.factory('dataService', function($http) {
     searchMode: null,
     createMode: null,
 
-//showTagsList: null,
-
     user: {username: "Guest", totalLinks: 0, totalClicks: 0},
 
-    linksList: [/*{url: "https://jamtrackcentral.com/artists/alex-hutchings/",
-                 shortUrl: "te.st/2aaa234", views: 0, description: "Alex Hutchings",
-                 tags: ["jtc", "hutchings", "guitar", "fusion", "jazz", "blues"],
-                 focused: false},
-                {url: "https://jamtrackcentral.com/artists/guthrie-govan/",
-                 shortUrl: "te.st/2bbb345", views: 5, description: "",
-                 tags: ["licks", "govan", "guitar", "fusion"],
-                 focused: false},
-                {url: "https://jamtrackcentral.com/artists/martin-miller/",
-                 shortUrl: "te.st/233aaaa", views: 4, description: "new year games",
-                 tags: ["guitar", "fusion"],
-                 focused: true},
-                {url: "https://jamtrackcentral.com/artists/marco-sfogli/",
-                 shortUrl: "te.st/2ggggaa", views: 0, description: "",
-                 tags: ["jtc", "metal", "guitar"],
-                 focused: false},
-                {url: "https://docs.npmjs.com/files/package.json",
-                 shortUrl: "te.st/27777aa", views: 0, description: "",
-                 tags: ["npm", "package"],
-                 focused: false},
-                {url: "http://www.w3schools.com/angular/angular_animations.asp",
-                 shortUrl: "te.st/23377bb", views: 0, description: "",
-                 tags: ["angular", "animation"],
-                 focused: false}*/],
+    linksList: [],
 
     setCurrLink: function (index) {
       var model = this;
@@ -68,16 +44,11 @@ mainApp.factory('dataService', function($http) {
         model.currLinkIndex = index;
 
         model.currLink = model.linksList[index];
-/*model.showTagsList = model.linksList[index].tags.map(function () {
-          return 1;
-        });*/
       }
     },
 
     addToLinksList: function (linkObj) {
       var model = this;
-debugger;
-console.log("kolbasa");
       model.currLink = {};
 
       for (var key in linkObj) {
@@ -90,8 +61,36 @@ console.log("kolbasa");
 
     loadData: function () {
       var model = this;
-debugger;
-      model.currLink = model.linksList[model.currLinkIndex];
+
+      $http({
+        method: 'GET',
+        url: '/link'
+      }).then(function (result) {
+
+        if (result) {
+          var linksCount = result.data.linksList.length;
+
+          model.user = {username: result.data.user.username,
+                        totalLinks : linksCount,
+                        totalClicks: 0};
+
+          model.linksList = result.data.linksList;
+
+          for (var i = 0; i < linksCount; i++) {
+            model.linksList[i].username = model.user.username;
+            model.linksList[i].shortUrl = "te.st/2" + model.linksList[i].shortUrlCode.toString(36);
+
+            model.user.totalClicks += model.linksList[i].counter;
+          }
+
+          model.setCurrLink(0);
+
+          model.currAuthor = model.user.username;
+        }
+      },
+      function (result) {
+        //debugger;
+      });
 
     }, // loadData
 
