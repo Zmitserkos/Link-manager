@@ -1,21 +1,22 @@
 
-<div id="registerModal" class="modal fade" tabindex="-1" >
-  <div class="modal-dialog register-modal" ng-controller="authorizationController">
+<div id="registerModal" class="modal fade" tabindex="-1" ng-controller="authorizationController">
+  <div class="modal-dialog modal-register">
     <div class="modal-content">
       <div class="modal-header">
         <button class="close" type="button" data-dismiss="modal" ng-click="activate()">×</button>
         <span class="modal-title">Join us!</span>
-        <!-- <h5 class="modal-title">Join us!</h5> -->
       </div>
 
-      <div class="modal-body" style="padding: 20px;">
-        <form ng-submit="login()">
-          <span class="text-warning" ng-show="showErrorText">{{errorText}}</span>
-          <input class="input-modal" type="username" ng-model="user.username" placeholder="Username" required><br>
-          <input class="input-modal" type="password" ng-model="user.password" placeholder="Password" required><br>
-          <input class="input-modal" type="password" ng-model="user.passwordConf" placeholder="Confirm password" required><br>
+      <div class="modal-body">
+        <form ng-submit="register()">
+          <div class="modal-register-container">
+            <span class="modal-warning-text" ng-show="showErrorText">{{errorText}}</span>
+            <input class="modal-input" type="username" ng-model="user.username" placeholder="Username" required><br>
+            <input class="modal-input" type="password" ng-model="user.password" placeholder="Password" required><br>
+            <input class="modal-input" type="password" ng-model="user.passwordConf" placeholder="Confirm password" required><br>
+          </div>
 
-          <input type="submit" value="Register" class="btn btn-modal btn-auth-modal" />
+          <input type="submit" value="REGISTER" class="modal-btn" />
         </form>
       </div>
     </div>

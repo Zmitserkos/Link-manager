@@ -8,20 +8,14 @@
  */
 
  .modal-dialog {
-   position: relative;
  }
 
-.login-modal {
-  height: 320px;
+.modal-login-container {
+  min-height: 140px;
 }
 
-.register-modal {
-	height: 360px;
-}
-
-.edit-link-modal {
-	height: 100%;
-	background: pink;
+.modal-register-container {
+	min-height: 200px;
 }
 
 .modal-content {
@@ -29,6 +23,7 @@
 	height: inherit;
 	padding: 0;
 	background: rgba(215, 215, 215, 1);
+  overflow: auto;
 }
 
 .modal-header {
@@ -46,14 +41,11 @@
   font-size: 28px;
   line-height: 20px;
 
-padding: 0;
-  margin-top: 9px;
-
-  background: rgba(255, 185, 55, 1);
-  color: rgba(60, 60, 60, 1);
+  padding: 0;
+  margin-top: 8px;
 }
 
-.input-modal {
+.modal-input {
 	height: 40px;
   width: 100%;
   padding-left: 10px;
@@ -62,11 +54,12 @@ padding: 0;
   border: 1px solid rgba(120, 120, 120, 1);
 }
 
-.input-text-link-modal {
+.modal-input-text {
+  width: 100%;
 	padding: 4px 6px;
 }
 
-.title-input-modal {
+.modal-input-title {
 	margin-top: 10px;
 	margin-bottom: 0;
 }
@@ -82,25 +75,22 @@ padding: 0;
 	line-height: 22px;
 }
 
-.btn-modal {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-	width: 100%;
-
+.modal-btn {
+  width: 100%;
   height: 40px;
 
-  margin: 20px;
+  margin: 20px 0;
+  float: right;
+
   color: white;
   border-radius: 6px;
   border: 1px solid rgba(120, 120, 120, 1);
   background: rgba(255, 140, 10, 1);
 }
 
-.tag-btm-modal {
+.modal-tag-btn {
   height: 40px;
 	float: right;
-  /*margin: 0 3%;*/
   border-radius: 6px;
 	border: 1px solid rgba(20, 20, 20, 1);
   padding: 6px;
@@ -109,17 +99,14 @@ padding: 0;
 	line-height: 28px;
 }
 
-.input-tag-modal {
-
-}
-
-.tag-close-btn-modal {
+/***/
+.modal-tag-del-btn {
 	border: 0;
 	border-radius: 10px;
 	padding-left: 0;
 }
 
-.tag-modal {
+.modal-tag {
 	float: left;
 	margin: 8px 3px;
 	padding-left: 6px;
@@ -345,38 +332,31 @@ Copyright (c) 2012 Dan Eden*/
 }
 
 
-.edit-link-modal {
-	height: 100%;
-}
-
-
 /*screen-sm*/
 @media (max-width: 768px) {
-  .login-modal, .register-modal {width: 100%; padding: 0;}
-	.edit-link-modal {width: 100%; height: 600px; padding: 0;}
-	.input-text-link-modal {width: 100%;}
-	.btn-link-modal, .btn-auth-modal {width: 30%;}
-	.input-tag-modal {width: 78%;}
-	.tag-btm-modal {width: 20%;}
+  .modal-login, .modal-register {width: 100%; padding: 0;}
+  .modal-edit-link {width: 100%; padding: 0;}
+  /*.modal-input-text {width: 100%;}*/
+	.modal-btn {width: 30%;}
+  .modal-tag-input {width: 78%;}
+  .modal-tag-btn {width: 20%;}
 }
 /*screen-md*/
 @media (min-width: 768px) and (max-width: 1200px) {
-  .login-modal, .register-modal {width: 300px; margin: 0 auto;}
-	.edit-link-modal {width: 440px; height: 600px; margin: 0 auto;}
-	.input-text-link-modal, .btn-link-modal {width: 400px;}
-  .btn-auth-modal {width: 260px;}
-	.tag-btm-modal {width: 80px;}
-	.input-tag-modal {width: 310px;}
+  .modal-login, .modal-register {width: 300px; margin: 0 auto;}
+  .modal-edit-link {width: 440px; margin: 0 auto;}
+  /*.modal-input-text {width: 400px;}*/
+  .modal-tag-btn {width: 80px;}
+	.modal-tag-input {width: 310px;}
 	.modal {right: 1%;left: 1%;}
 }
 /*screen-lg corresponds with col-lg*/
 @media (min-width: 1200px) {
-  .login-modal, .register-modal {width: 300px; margin: 0 auto;}
-	.edit-link-modal {width: 440px; height: 600px; margin: 0 auto;}
-	.input-text-link-modal, .btn-link-modal {width: 400px;}
-	.btn-auth-modal {width: 260px;}
-	.tag-btm-modal {width: 80px;}
-	.input-tag-modal {width: 310px;}
+  .modal-login, .modal-register {width: 300px; margin: 0 auto;}
+  .modal-edit-link {width: 440px; margin: 0 auto;}
+  /*.modal-input-text {width: 100%;}*/
+  .modal-tag-btn {width: 80px;}
+	.modal-tag-input {width: 310px;}
 	.modal {/*top: 1%;*/right: 1%;left: 1%;}
 }
 

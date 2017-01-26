@@ -2,24 +2,9 @@
 var mainApp = angular.module('linkManagerApp');
 
 mainApp.controller('mainController',
-                   function($scope, $http, $window, $compile, dataService) {
+                   function($scope, $http, dataService) {
   // set the model
   $scope.linkManagerModel = dataService;
-
-  // button "Search"
-  $scope.searchLink = function(shortUrl) {
-
-    $scope.linkManagerModel.currQuery = shortUrl;
-    $scope.linkManagerModel.queryType = "URL";
-
-    window.location.href = '/main';
-
-    $http({method:'POST', url:'/333' , params: {}}).
-      success(function (result) {  //'id': 1     + shortUrl
-//debugger;
-        console.log(result);
-    });
-  } // searchLink
 
   $scope.deactivate = function () {
     $scope.linkManagerModel.deactivated = true;
@@ -34,26 +19,32 @@ mainApp.controller('mainController',
       };
 
       window.location.href = '/';
-/*
-      var topButtons = document.getElementById("top-btns");
-      var guestButtons = angular.element(result);
-
-      angular.element(topButtons).empty();
-
-      var compiledElem = $compile(guestButtons)($scope);
-      if (compiledElem) { // compiledElem
-        angular.element(topButtons).append(compiledElem);
-      }
-*/
     });
   }
 
-  // button "Create short URL"
-  $scope.createShortUrl = function () {
-
+  $scope.newLink = function () {
     $scope.linkManagerModel.deactivated = true;
-    $scope.linkManagerModel.editLinkMode = true; // ???
-    $scope.linkManagerModel.createLink = true;
-  } // createShortUrl
+
+  //  $scope.linkManagerModel.showTagsList
+
+    //$scope.linkManagerModel.showTagsList = [];
+
+
+  }
+
+  // button "Search"
+  $scope.searchLink = function(shortUrl) {
+
+    //$scope.linkManagerModel.currQuery = shortUrl;
+    //$scope.linkManagerModel.queryType = "URL";
+
+    window.location.href = '/main';
+
+    $http({method:'POST', url:'/333' , params: {}}).
+      success(function (result) {  //'id': 1     + shortUrl
+//debugger;
+        console.log(result);
+    });
+  } // searchLink
 
 });
