@@ -3,54 +3,120 @@ var mainApp = angular.module('linkManagerApp');
 
 mainApp.factory('dataService', function($http) {
 
+  if ([].indexOf) {
+    var findFunc = function(array, value) {
+      return array.indexOf(value);
+    }
+  } else {
+    var findFunc = function(array, value) {
+      for (var i = 0; i < array.length; i++) {
+        if (array[i] === value) return i;
+      }
+      return -1;
+    }
+  }
+
   // create the model
   var mainModel = {
 
     deactivated: false,
-    //hidePopup: true,
-    editLinkMode: false,
-    createLink: false,
 
-    currUrl: null,
-    currQuery: null,
-    queryType: null,
+    newLink: null,
+    currLink: null,
+    currLinkIndex: 0,
 
-    user: {username: "Guest"},
+    queryText: null,
+    queryType: "URL",
 
-    linksList: [{longUrl: "https://jamtrackcentral.com/artists/alex-hutchings/",
-                 shortUrl: "te.st/2aaa234", views: 0, description: "Alex Hutchings", tagsList: ["jtc", "hutchings", "guitar", "fusion"]},
-                {longUrl: "https://jamtrackcentral.com/artists/guthrie-govan/",
-                 shortUrl: "te.st/2bbb345", views: 5, description: "", tagsList: ["licks", "govan", "guitar", "fusion"]},
-                {longUrl: "https://jamtrackcentral.com/artists/martin-miller/",
-                 shortUrl: "te.st/233aaaa", views: 4, description: "new year games", tagsList: ["guitar", "fusion"]},
-                {longUrl: "https://jamtrackcentral.com/artists/marco-sfogli/",
-                 shortUrl: "te.st/2ggggaa", views: 0, description: "", tagsList: ["jtc", "metal", "guitar"]},
-                {longUrl: "https://docs.npmjs.com/files/package.json",
-                 shortUrl: "te.st/27777aa", views: 0, description: "", tagsList: ["npm", "package"]},
-                {longUrl: "http://www.w3schools.com/angular/angular_animations.asp",
-                 shortUrl: "te.st/23377bb", views: 0, description: "", tagsList: ["angular", "animation"]}],
+
+    searchMode: null,
+    createMode: null,
+
+    showTagsList: [],
+
+    user: {username: "Guest", totalLinks: 0, totalClicks: 0},
+
+    linksList: [],
+
+    setCurrLink: function (index) {
+      var model = this;
+
+      if (index > -1 && index < model.linksList.length) {
+        model.currLinkIndex = index;
+
+        model.currLink = model.linksList[index];
+      }
+    },
+
+    addToLinksList: function (linkObj) {
+      var model = this;
+      model.currLink = {};
+
+      for (var key in linkObj) {
+        if (key!=="tags") {
+          model.currLink[key] = linkObj[key];
+        } else { // key==="tags"
+
+          model.currLink[key] = [].concat(linkObj[key]);
+        }
+      }
+
+      model.linksList.unshift(model.currLink);
+      model.currLinkIndex = 0;
+    },
 
     loadData: function () {
-
-    }, // loadData
-
-    getUser: function () {
       var model = this;
 
       $http({
         method: 'GET',
-        url: '/user', //user
+        url: '/link'
       }).then(function (result) {
-        debugger;
+
         if (result) {
-          model.user = result.data;
+          var linksCount = result.data.linksList.length;
+
+          model.user = {username: result.data.user.username,
+                        totalLinks : linksCount,
+                        totalClicks: 0};
+
+          model.linksList = result.data.linksList;
+
+          for (var i = 0; i < linksCount; i++) {
+            debugger;
+model.linksList[i].id = model.linksList[i]._id;
+            model.linksList[i].username = model.user.username;
+            model.linksList[i].shortUrl = "te.st/2" + model.linksList[i].shortUrlCode.toString(36);
+
+            model.user.totalClicks += model.linksList[i].counter;
+          }
+
+          model.setCurrLink(0);
         }
       },
       function (result) {
-        debugger;
-
+        //debugger;
       });
-    } // getUser
+
+    }, // loadData
+
+    findFunc: findFunc,
+
+    checkValidUrl: function (str) {
+      /*var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
+    '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
+    '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
+    '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
+    '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
+    '(\#[-a-z\d_]*)?$','i'); // fragment locater
+
+      if(!pattern.test(str)) {
+        return false;
+      } else {
+        return true;
+      }*/
+      return true;
+    } // validUrl
 
   } // mainModel
 

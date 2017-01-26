@@ -7,24 +7,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="css/bootstrap-grid-3.3.1.min.css"/>
+  <link rel="stylesheet" href="css/bootstrap-modal.css"/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="css/font-awesome.min.css">
 
+<!-- <link rel="stylesheet" href="bootstrap-modal-bs3patch.css"/> -->
+
 </head>
 <body>
-
 
   <div id="main" ng-controller="mainController" ng-class="linkManagerModel.deactivated ? 'disactivated' : ''">
     <div class="container-fluid">
 
       <div class="row">
         <div class="col-xs-6 col-sm-3 col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-2">
-          <div id="logo">Te.sT</div>
+          <div id="home-logo">Te.sT</div>
         </div>
         <div class="col-xs-6 visible-xs">
           <span class="auth-text"><b>{{linkManagerModel.user.username}}</b> <i class="fa fa-user-o fa-lg">&nbsp;</i></span>
         </div>
-        <div class="col-xs-12 col-sm-9 col-md-8 col-lg-6 myColoredCol" >
+        <div class="col-xs-12 col-sm-9 col-md-8 col-lg-6" >
           <div class="top-btn-container">
             <div id="top-btns"><% include topButtons %></div>
             <span class="auth-text hidden-xs">Signed in as <b>{{linkManagerModel.user.username}}</b></span>
@@ -42,8 +44,8 @@
 
       <div class="row">
         <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
-          <form class="input-block" ng-submit="searchLink(linkManagerModel.currUrl)">
-              <input class="container-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.currUrl">
+          <form class="input-block" ng-submit="searchLink()">
+              <input class="search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.queryText">
               <button class="search-btn">SEARCH</button>
           </form>
         </div>
@@ -52,11 +54,13 @@
 
   </div>
 
-  <div id="popup">
-  </div>
+  <% include modals %>
 
   <script src="js/angular.min.js"></script>
   <script src="js/angular-animate.js"></script>
+  <script src="js/jquery-3.1.1.js"></script>
+  <script src="js/bootstrap-modal.js"></script>
+  <script src="js/bootstrap-modalmanager.js"></script>
 
   <script src="modules/mainApp.js"></script>
 

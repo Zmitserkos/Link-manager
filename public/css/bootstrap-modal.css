@@ -8,24 +8,14 @@
  */
 
  .modal-dialog {
-   position: relative;
-
-	 width: 300px;
-	 /*margin: auto;*/
-   /*margin: 10px auto;*/
  }
 
-.login-modal {
-  height: 320px;
+.modal-login-container {
+  min-height: 140px;
 }
 
-.register-modal {
-	height: 360px;
-}
-
-.edit-link-modal {
-	width: 400px;
-	height: 600px;
+.modal-register-container {
+	min-height: 200px;
 }
 
 .modal-content {
@@ -33,6 +23,7 @@
 	height: inherit;
 	padding: 0;
 	background: rgba(215, 215, 215, 1);
+  overflow: auto;
 }
 
 .modal-header {
@@ -50,17 +41,86 @@
   font-size: 28px;
   line-height: 20px;
 
-padding: 0;
-	/*padding: 6px 0;*/
-  margin-top: 9px;
-
-  background: rgba(255, 185, 55, 1);
-  color: rgba(60, 60, 60, 1);
+  padding: 0;
+  margin-top: 8px;
 }
 
+.modal-input {
+	height: 40px;
+  width: 100%;
+  padding-left: 10px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: 1px solid rgba(120, 120, 120, 1);
+}
 
+.modal-input-text {
+  width: 100%;
+	padding: 4px 6px;
+}
 
+.modal-input-title {
+	margin-top: 10px;
+	margin-bottom: 0;
+}
 
+.long-url-modal, .description-modal {
+	height: 90px;
+	/*white-space: nowrap;*/
+}
+
+.short-url-modal {
+	height: 30px;
+	overflow: hidden;
+	line-height: 22px;
+}
+
+.modal-btn {
+  width: 100%;
+  height: 40px;
+
+  margin: 20px 0;
+  float: right;
+
+  color: white;
+  border-radius: 6px;
+  border: 1px solid rgba(120, 120, 120, 1);
+  background: rgba(255, 140, 10, 1);
+}
+
+.modal-tag-btn {
+  height: 40px;
+	float: right;
+  border-radius: 6px;
+	border: 1px solid rgba(20, 20, 20, 1);
+  padding: 6px;
+	font-size: 14px;
+  font-family: arial;
+	line-height: 28px;
+}
+
+/***/
+.modal-tag-del-btn {
+	border: 0;
+	border-radius: 10px;
+	padding-left: 0;
+}
+
+.modal-tag {
+	float: left;
+	margin: 8px 3px;
+	padding-left: 6px;
+	border-radius: 10px;
+}
+
+.tag-title-modal {
+	float: left;
+	margin-right: 10px;
+}
+
+.tags-container-modal {
+	overflow: auto;
+}
 
 
 
@@ -112,12 +172,13 @@ padding: 0;
 }
 
 .modal.fade.in {
-	top: 30%; /*09.01.2017*/
+	top: 40%; /*09.01.2017*/
 }
 
 .modal-body {
 	max-height: none;
 	overflow: visible;
+	padding: 20px; /*10.01.2017*/
 }
 
 .modal.modal-absolute {
@@ -271,21 +332,31 @@ Copyright (c) 2012 Dan Eden*/
 }
 
 
-
-
-
 /*screen-sm*/
 @media (max-width: 768px) {
-  .modal-dialog {width: 100%; padding: 0;}
+  .modal-login, .modal-register {width: 100%; padding: 0;}
+  .modal-edit-link {width: 100%; padding: 0;}
+  /*.modal-input-text {width: 100%;}*/
+	.modal-btn {width: 30%;}
+  .modal-tag-input {width: 78%;}
+  .modal-tag-btn {width: 20%;}
 }
 /*screen-md*/
 @media (min-width: 768px) and (max-width: 1200px) {
-  .modal-dialog {width: 300px; margin: 0 auto;}
+  .modal-login, .modal-register {width: 300px; margin: 0 auto;}
+  .modal-edit-link {width: 440px; margin: 0 auto;}
+  /*.modal-input-text {width: 400px;}*/
+  .modal-tag-btn {width: 80px;}
+	.modal-tag-input {width: 310px;}
 	.modal {right: 1%;left: 1%;}
 }
 /*screen-lg corresponds with col-lg*/
 @media (min-width: 1200px) {
-  .modal-dialog {width: 300px; margin: 0 auto;}
+  .modal-login, .modal-register {width: 300px; margin: 0 auto;}
+  .modal-edit-link {width: 440px; margin: 0 auto;}
+  /*.modal-input-text {width: 100%;}*/
+  .modal-tag-btn {width: 80px;}
+	.modal-tag-input {width: 310px;}
 	.modal {/*top: 1%;*/right: 1%;left: 1%;}
 }
 

@@ -7,55 +7,127 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="css/bootstrap-grid-3.3.1.min.css"/>
-  <link rel="stylesheet" href="css/main-style.css"/>
+  <link rel="stylesheet" href="css/bootstrap-modal.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+
+<!-- <link rel="stylesheet" href="bootstrap-modal-bs3patch.css"/> -->
 
 </head>
 <body>
 
   <div id="main" ng-controller="mainController" ng-class="linkManagerModel.deactivated ? 'disactivated' : ''">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-xs-12 col-md-2 col-lg-1">
-          <a href="/"><div id="logo">Te.sT</div></a>
+
+      <div class="row main-header">
+        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+          <a href="/"><div id="main-logo">Te.sT</div></a>
 
           <div class="visible-xs">
-            <span class="auth-text"><b>{{linkManagerModel.user.username}}</b></span>
+            <span class="auth-text"><b>{{linkManagerModel.user.username}}</b> <i class="fa fa-user-o fa-lg">&nbsp;</i></span>
           </div>
 
-          <div class="visible-sm">
-            <span class="auth-text">Signed in as <b>{{linkManagerModel.user.username}}</b></span>
-          </div>
         </div>
 
-        <form class="col-xs-12 col-md-4 col-lg-5" ng-submit="searchLink(linkManagerModel.currUrl)">
-          <div class="input-block" style="background: rgba(55, 185, 55, 1); border: 1px solid grey; " >
-            <input class='container-input' type="text" placeholder="SEARCH BY LINK"
-                   ng-model="linkManagerModel.currUrl" >
-            <button class='search-btn'>S</button>
-            1
-          </div>
-        </form>
-
-        <div class="col-xs-hide col-md-3 col-lg-4">
-          <span class="auth-text hidden-xs hidden-sm">Signed in as <b>{{linkManagerModel.user.username}}</b></span>
-        </div>
-
-        <div class="col-xs-12 col-md-3 col-lg-2 myColoredCol" >
-          <div class="top-button-container">
+        <div class="col-sm-10 col-md-10 col-lg-10">
+          <div class="main-top-btn-container">
             <div id="top-btns"><% include topButtons %></div>
+            <span class="auth-text hidden-xs"><b>&nbsp;{{linkManagerModel.user.username}}</b></span>
+            <span class="auth-text hidden-xs hidden-sm">Signed in as </span>
+
+            <form class="hidden-xs main-search-block" ng-submit="searchLink()">
+              <button class="main-search-btn">SEARCH</button>
+              <input class="main-search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.queryText" />
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="visible-xs">
+          <form class="input-block main-search-form" ng-submit="searchLink()">
+              <input class="search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.queryText">
+              <button class="search-btn">SEARCH</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="main-info-block" class="row">
+        <div class="col-xs-12">
+          <span class="main-info-text" ng-show="linkManagerModel.searchMode">
+            Searching by {{linkManagerModel.queryType}}: <b class="main-query-text">{{linkManagerModel.queryText}}</b>
+          </span>
+          <br class="visible-xs" ng-show="linkManagerModel.searchMode">
+          <span class="main-info-text">Total links: <b class="main-info-data">{{linkManagerModel.user.totalLinks}}</b></span>
+          <br class="visible-xs">
+          <span class="main-info-text">Total clicks: <b class="main-info-data">{{linkManagerModel.user.totalClicks}}</b></span>
+          <br class="visible-xs">
+
+          <div class="visible-xs">
+            <p class="main-info-text">
+              Short URL: <b class="main-info-data">{{linkManagerModel.currLink.shortUrl}}</b>
+              <button type="button" class="main-container-button" data-toggle="modal"
+                      data-target="#editLinkModal" ng-click="editLink()">Edit</button>
+            </p>
+            <p class="main-info-text">
+              Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>
+            </p>
+            <p class="main-info-text">
+              Description: <b class="main-info-data">{{linkManagerModel.currLink.description}}</b>
+            </p>
+            <p class="main-info-text">
+              Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
+                      <b class="main-info-data"><a class="main-container-tags">{{tag}}</a></b>
+                    </span>
+            </p>
+            <p class="main-info-text">
+              Author: <span>
+                        <b class="main-info-data">{{linkManagerModel.currLink.username}}</b>
+                      </span>
+            </p>
+            <p class="main-info-text">
+              Clicks: <b class="main-info-data">{{linkManagerModel.currLink.counter}}</b>
+            </p>
+
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-xs-12">
-          <div class="search-query">Searching for {{linkManagerModel.queryType}}: <b>{{linkManagerModel.currQuery}}</b></div>
+        <div id="main-sidebar" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <li ng-class="$index === linkManagerModel.currLinkIndex ? 'main-sidebar-link main-link-focused' : 'main-sidebar-link'"
+              ng-repeat="link in linkManagerModel.linksList" ng-click="linkActivate($index)">
+            {{link.shortUrl}}
+          </li>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
-
+        <div id="main-container" class="hidden-xs col-sm-8 col-md-8 col-lg-8" ng-show="linkManagerModel.linksList.length">
+          <p class="main-container-text">
+            Short URL: <b class="main-info-data" ng-click="redirect()">{{linkManagerModel.currLink.shortUrl}}</b>
+            <button type="button" class="main-container-button" data-toggle="modal"
+                    data-target="#editLinkModal" ng-click="editLink()">Edit</button>
+          </p>
+          <p class="main-container-text">
+            Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>
+          </p>
+          <p class="main-container-text">
+            Description: <b class="main-info-data">{{linkManagerModel.currLink.description}}</b>
+          </p>
+          <p class="main-container-text">
+            Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
+                    <b class="main-info-data main-container-tags">{{tag}}</b>
+                  </span>
+          </p>
+          <p class="main-container-text">
+            Author: <span>
+                      <b class="main-info-data">{{linkManagerModel.currLink.username}}</b>
+                    </span>
+          </p>
+          <p class="main-container-text">
+            Clicks: <b class="main-info-data">{{linkManagerModel.currLink.counter}}</b>
+          </p>
         </div>
       </div>
 
@@ -63,9 +135,13 @@
 
   </div>
 
+  <% include modals %>
 
   <script src="js/angular.min.js"></script>
   <script src="js/angular-animate.js"></script>
+  <script src="js/jquery-3.1.1.js"></script>
+  <script src="js/bootstrap-modal.js"></script>
+  <script src="js/bootstrap-modalmanager.js"></script>
 
   <script src="modules/mainApp.js"></script>
 

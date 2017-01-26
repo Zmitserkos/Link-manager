@@ -3,5 +3,6 @@ var myApp = angular.module('linkManagerApp', ['ngAnimate']).run(function($rootSc
 
   $rootScope.linkManagerModel = dataService;
 
-  $rootScope.linkManagerModel.getUser();
+  $rootScope.linkManagerModel.loadData();
+
 });

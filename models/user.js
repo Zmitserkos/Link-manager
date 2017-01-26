@@ -4,7 +4,7 @@ var async = require('async');
 var mongoose = require('lib/mongoose');
 var Schema = mongoose.Schema;
 
-var schema = new Schema({
+var userSchema = new Schema({
   username: {
     type: String,
     unique: true,
@@ -23,11 +23,11 @@ var schema = new Schema({
   safe: null
 });
 
-schema.methods.encryptPassword = function(password) {
+userSchema.methods.encryptPassword = function(password) {
   return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
 }
 
-schema.virtual('password')
+userSchema.virtual('password')
   .set(function(password) {
     this._plainPassword = password;
     this.salt = Math.random() + '';
@@ -37,7 +37,7 @@ schema.virtual('password')
     return this._plainPassword;
   });
 
-schema.methods.checkPassword = function(password) {
+userSchema.methods.checkPassword = function(password) {
   return this.encryptPassword(password) === this.hashedPassword;
 }
 
@@ -69,7 +69,7 @@ schema.statics.login = function(username, password, callback) {
 
 //schema.index({username: 1}, {unique: true});
 
-var user = mongoose.model('User', schema);
+var user = mongoose.model('User', userSchema);
 
 user.on('index', function(err) {
     if (err) {

@@ -2,36 +2,13 @@
 var mainApp = angular.module('linkManagerApp');
 
 mainApp.controller('mainController',
-                   function($scope, $http, $window, $compile, dataService) {
+                   function($scope, $http, dataService) {
   // set the model
   $scope.linkManagerModel = dataService;
-
-  // button "Search"
-  $scope.searchLink = function(shortUrl) {
-
-    $scope.linkManagerModel.currQuery = shortUrl;
-    $scope.linkManagerModel.queryType = "URL";
-
-    window.location.href = '/main';
-
-    $http({method:'POST', url:'/333' , params: {}}).
-      success(function (result) {  //'id': 1     + shortUrl
-//debugger;
-        console.log(result);
-    });
-  } // searchLink
 
   $scope.deactivate = function () {
     $scope.linkManagerModel.deactivated = true;
   }
-
-  /*$scope.registerForm = function () {
-    $scope.linkManagerModel.deactivated = true;
-  }
-
-  $scope.loginForm = function () {
-    $scope.linkManagerModel.deactivated = true;
-  }*/
 
   $scope.logOut = function () {
     $http({method:'GET', url:'/logout'})
@@ -42,26 +19,69 @@ mainApp.controller('mainController',
       };
 
       window.location.href = '/';
-/*
-      var topButtons = document.getElementById("top-btns");
-      var guestButtons = angular.element(result);
-
-      angular.element(topButtons).empty();
-
-      var compiledElem = $compile(guestButtons)($scope);
-      if (compiledElem) { // compiledElem
-        angular.element(topButtons).append(compiledElem);
-      }
-*/
     });
   }
 
-  // button "Create short URL"
-  $scope.createShortUrl = function () {
-
+  $scope.newLink = function () {
     $scope.linkManagerModel.deactivated = true;
-    $scope.linkManagerModel.editLinkMode = true; // ???
-    $scope.linkManagerModel.createLink = true;
-  } // createShortUrl
+
+    $scope.linkManagerModel.createMode = true;
+
+    $scope.linkManagerModel.newLink = {};
+  }
+
+  $scope.editLink = function () {
+    $scope.linkManagerModel.deactivated = true;
+
+    $scope.linkManagerModel.createMode = false;
+
+    $scope.linkManagerModel.newLink = {};
+
+    $scope.linkManagerModel.newLink.shortUrl = $scope.linkManagerModel.currLink.shortUrl;
+    $scope.linkManagerModel.newLink.url = $scope.linkManagerModel.currLink.url;
+    $scope.linkManagerModel.newLink.description = $scope.linkManagerModel.currLink.description;
+    $scope.linkManagerModel.newLink.tags = [];
+    $scope.linkManagerModel.showTagsList = [];
+
+    var tagsNumber = $scope.linkManagerModel.currLink.tags.length;
+    for (var i = 0; i < tagsNumber; i++) {
+      $scope.linkManagerModel.newLink.tags[i] = $scope.linkManagerModel.currLink.tags[i];
+      $scope.linkManagerModel.showTagsList[i] = 1;
+    }
+
+  }
+
+  $scope.redirect = function () {
+    debugger;
+    $http({method:'GET', url: '/link'})
+    .success(function (result) {
+
+      //window.location.href = '/';
+    });
+  }
+
+  // button "Search"
+  $scope.searchLink = function(shortUrl) {
+    $scope.linkManagerModel.searchMode = true;
+debugger;
+    //$scope.linkManagerModel.currQuery = shortUrl;
+    //$scope.linkManagerModel.queryType = "URL";
+
+    if (window.location.href != 'http://localhost:3001/main') {
+      window.location.href = '/main';
+    }
+
+    $http({method:'POST', url:'/333' , params: {}}).
+      success(function (result) {  //'id': 1     + shortUrl
+
+        console.log(result);
+    });
+  } // searchLink
+
+  $scope.linkActivate = function (index) {
+
+    $scope.linkManagerModel.currLinkIndex = index;
+    $scope.linkManagerModel.currLink = $scope.linkManagerModel.linksList[index];
+  } // linkActivate
 
 });
