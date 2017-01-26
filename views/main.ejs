@@ -35,9 +35,9 @@
             <span class="auth-text hidden-xs"><b>&nbsp;{{linkManagerModel.user.username}}</b></span>
             <span class="auth-text hidden-xs hidden-sm">Signed in as </span>
 
-            <form class="hidden-xs main-search-block" ng-submit="searchLink(linkManagerModel.currUrl)">
+            <form class="hidden-xs main-search-block" ng-submit="searchLink()">
               <button class="main-search-btn">SEARCH</button>
-              <input class="main-search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.currUrl" />
+              <input class="main-search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.queryText" />
             </form>
 
           </div>
@@ -47,8 +47,8 @@
 
       <div class="row">
         <div class="visible-xs">
-          <form class="input-block main-search-form" ng-submit="searchLink(linkManagerModel.currUrl)">
-              <input class="search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.currUrl">
+          <form class="input-block main-search-form" ng-submit="searchLink()">
+              <input class="search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.queryText">
               <button class="search-btn">SEARCH</button>
           </form>
         </div>
@@ -59,7 +59,7 @@
           <span class="main-info-text" ng-show="linkManagerModel.searchMode">
             Searching by {{linkManagerModel.queryType}}: <b class="main-query-text">{{linkManagerModel.queryText}}</b>
           </span>
-          <br class="visible-xs">
+          <br class="visible-xs" ng-show="linkManagerModel.searchMode">
           <span class="main-info-text">Total links: <b class="main-info-data">{{linkManagerModel.user.totalLinks}}</b></span>
           <br class="visible-xs">
           <span class="main-info-text">Total clicks: <b class="main-info-data">{{linkManagerModel.user.totalClicks}}</b></span>
@@ -67,19 +67,21 @@
 
           <div class="visible-xs">
             <p class="main-info-text">
-              Short URL: <b class="main-info-data">{{}}</b>
+              Short URL: <b class="main-info-data">{{linkManagerModel.currLink.shortUrl}}</b>
             </p>
             <p class="main-info-text">
-              Clicks: <b class="main-info-data">{{}}</b>
+              Clicks: <b class="main-info-data">{{linkManagerModel.currLink.counter}}</b>
             </p>
             <p class="main-info-text">
-              Long URL: <b class="main-info-data">{{}}</b>
+              Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>
             </p>
             <p class="main-info-text">
-              Description: <b class="main-info-data">{{}}</b>
+              Description: <b class="main-info-data">{{linkManagerModel.currLink.description}}</b>
             </p>
             <p class="main-info-text">
-              Tags: <span ><b class="main-info-data">{{}}</b></span>
+              Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
+                      <b class="main-info-data"><a style="margin: 0 6px; color: orange;">{{tag}}</a></b>
+                    </span>
             </p>
 
           </div>
@@ -88,26 +90,31 @@
 
       <div class="row">
         <div id="main-sidebar" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-          <li ng-class="link.focused ? 'main-sidebar-link main-link-focused' : 'main-sidebar-link'" ng-repeat="link in linkManagerModel.linksList">
+          <li ng-class="$index === linkManagerModel.currLinkIndex ? 'main-sidebar-link main-link-focused' : 'main-sidebar-link'"
+              ng-repeat="link in linkManagerModel.linksList" ng-click="linkActivate($index)">
             {{link.shortUrl}}
           </li>
         </div>
 
-        <div id="main-container" class="hidden-xs col-sm-8 col-md-8 col-lg-8">
+        <div id="main-container" class="hidden-xs col-sm-8 col-md-8 col-lg-8" ng-show="linkManagerModel.linksList.length">
           <p class="main-container-text">
-            Short URL: <b class="main-info-data">{{}}</b>
+            Short URL: <b class="main-info-data" ng-click="redirect()">{{linkManagerModel.currLink.shortUrl}}</b>
+            <button type="button" style="color: white; background: rgba(255, 140, 10, 1); border: 1px solid rgba(120, 120, 120, 1); border-radius: 6px;">Edit</button>
           </p>
           <p class="main-container-text">
-            Clicks: <b class="main-info-data">{{}}</b>
+            Clicks: <b class="main-info-data">{{linkManagerModel.currLink.counter}}</b>
           </p>
           <p class="main-container-text">
-            Long URL: <b class="main-info-data">{{}}</b>
+            Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>
           </p>
           <p class="main-container-text">
-            Description: <b class="main-info-data">{{}}</b>
+            Description: <b class="main-info-data">{{linkManagerModel.currLink.description}}</b>
           </p>
           <p class="main-container-text">
-            Tags: <span ><b class="main-info-data">{{}}</b></span>
+            Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
+                    <b class="main-info-data"
+                       style="margin: 5px; color: white; background: orange; border-radius: 6px; padding: 3px;">{{tag}}</b>
+                  </span>
           </p>
         </div>
       </div>

@@ -25,26 +25,50 @@ mainApp.controller('mainController',
   $scope.newLink = function () {
     $scope.linkManagerModel.deactivated = true;
 
-  //  $scope.linkManagerModel.showTagsList
+    $scope.linkManagerModel.createMode = true;
 
-    //$scope.linkManagerModel.showTagsList = [];
+    $scope.linkManagerModel.newLink = {};
+  }
 
+  $scope.editLink = function () {
+    $scope.linkManagerModel.deactivated = true;
 
+    $scope.linkManagerModel.createMode = false;
+
+                     $scope.linkManagerModel.newLink = $scope.linkManagerModel.currLink;
+  }
+
+  $scope.redirect = function () {
+    debugger;
+    $http({method:'GET', url: '/link'})
+    .success(function (result) {
+
+      //window.location.href = '/';
+    });
   }
 
   // button "Search"
   $scope.searchLink = function(shortUrl) {
-
+    $scope.linkManagerModel.searchMode = true;
+debugger;
     //$scope.linkManagerModel.currQuery = shortUrl;
     //$scope.linkManagerModel.queryType = "URL";
 
-    window.location.href = '/main';
+    if (window.location.href != 'http://localhost:3001/main') {
+      window.location.href = '/main';
+    }
 
     $http({method:'POST', url:'/333' , params: {}}).
       success(function (result) {  //'id': 1     + shortUrl
-//debugger;
+
         console.log(result);
     });
   } // searchLink
+
+  $scope.linkActivate = function (index) {
+    debugger;
+    $scope.linkManagerModel.currLinkIndex = index;
+    $scope.linkManagerModel.currLink = $scope.linkManagerModel.linksList[index];
+  } // linkActivate
 
 });

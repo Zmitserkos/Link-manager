@@ -22,6 +22,7 @@ mainApp.controller('authorizationController', function($scope, $http, $location,
 
       $scope.errorText = 'Password confirmation failed!';
       $scope.showErrorText = true;
+      return;
     }
 
     $http({

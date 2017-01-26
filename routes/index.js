@@ -15,8 +15,10 @@ module.exports = function(app) {
   // Main page
   app.get('/main', require('./main').get);
 
+  app.get('/link', require('./link').get);
+
   //
-  app.post('/shortlink', require('./shortlink').post);
+  app.post('/newlink', require('./newlink').post);
 }
 
 

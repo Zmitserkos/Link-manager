@@ -2,13 +2,15 @@
 var mongoose = require('lib/mongoose'),
     Schema = mongoose.Schema;
 
-//require('models/user');
+var Counter = require('models/counter').Counter;
 
-var schema = new Schema({
-  shortUrl: {
-    type: String,
-    unique: true,
-    required: true
+// _id, shortUrlCode, url, user, description, tags, counter
+
+var linkSchema = new Schema({
+  shortUrlCode: {
+    type: Number,
+    unique: true/*,
+    required: true*/
   },
   url: {
     type: String,
@@ -34,25 +36,20 @@ var schema = new Schema({
   }
 }, {safe: null});
 
-/*
-schema.methods.getUserId = function(username) {
-  mongoose.models.User.findOne({'username': username}, '_id', function (err, result) {
-    if (err) console.log(err);
-    return result._id;
-  });
-}
 
-schema.virtual('username')
-  .set(function(username) {
-    console.log("ddddd"+this.getUserId(username));
-    this.userId = this.getUserId(username);
-  })
-  .get(function () {
-    return this.userId;
-  });
-*/
+linkSchema.pre('save', function(next) {
+  var currLink = this;
 
-var link = mongoose.model('Link', schema);
+  Counter.findByIdAndUpdate("linkCount", {$inc: {count: 1}}, function(err, counter)   {
+    if (err) return next(err);
+
+    currLink.shortUrlCode = counter.count;
+    next(err, counter);
+  });
+});
+
+
+var link = mongoose.model('Link', linkSchema);
 
 link.on('index', function(err) {
     if (err) {

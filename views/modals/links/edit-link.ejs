@@ -3,36 +3,38 @@
   <div class="modal-dialog modal-edit-link">
     <div class="modal-content">
       <div class="modal-header">
-        <button class="close" type="button" data-dismiss="modal" ng-click="activate()">×</button>
+        <button class="close" type="button" data-dismiss="modal" ng-click="close()">×</button>
         <span class="modal-title">Create short link</span>
       </div>
 
       <div class="modal-body">
         <form ng-submit="saveLink()">
+          <span class="modal-warning-text" ng-show="showErrorText">{{errorText}}</span>
+
           <p class="modal-input-title">INPUT LONG URL</p>
-          <textarea class="modal-input-text long-url-modal" ng-model="link.longUrl"></textarea>
+          <textarea class="modal-input-text long-url-modal" ng-model="linkManagerModel.newLink.url"></textarea>
 
           <p class="modal-input-title">SHORT URL</p>
-          <textarea class="modal-input-text short-url-modal" ng-model="link.shortUrl"></textarea>
+          <textarea class="modal-input-text short-url-modal" readonly ng-model="linkManagerModel.newLink.shortUrl"></textarea>
 
-          <div ng-show="true">
+          <div ng-hide="linkManagerModel.createMode">
             <p class="modal-input-title">DESCRIPTION</p>
-            <textarea class="modal-input-text description-modal" ng-model="link.description"></textarea>
+            <textarea class="modal-input-text description-modal" ng-model="linkManagerModel.newLink.description"></textarea>
 
             <div class="tags-container-modal">
 
               <p class="modal-input-title tag-title-modal">TAGS</p>
-              <div class="modal-tag" ng-repeat="tag in link.tags" ng-show="showTagsList[$index]">
+              <div class="modal-tag" ng-repeat="tag in linkManagerModel.newLink.tags" ng-show="linkManagerModel.showTagsList[$index]">
                 <span>{{tag}}</span>
-                <button class="modal-tag-del-btn" ng-click="delTag($index)">×</button>
+                <button class="modal-tag-del-btn" type="button" ng-click="delTag($index)">×</button>
               </div>
 
             </div>
-            <input class="modal-input modal-tag-input" ng-model="tag"></input>
-            <button class="modal-tag-btn" ng-click="addTag()">ADD</button>
+            <input class="modal-input modal-tag-input" ng-model="newTag"></input>
+            <button class="modal-tag-btn" type="button" ng-click="addTag()">ADD</button>
           </div>
 
-          <input type="submit" value="SAVE" class="modal-btn" />
+          <input type="submit" ng-value="linkManagerModel.createMode ? 'CREATE' : 'SAVE'" class="modal-btn" />
 
         </form>
       </div>
