@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes');
-var users = require('./routes/user');
+//var users = require('./routes/user');
 
 var app = express();
 
@@ -22,22 +22,31 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'angular')));
+
 app.use(app.router);
 
 app.use(function (req, res, next) {
-  console.log('URL: ' + req.url);
+  console.log('URL///===: ' + req.url);
 
-  /*if (req.url[1]=='2') {
-    res.end('hello!');
-  }*/
+/*  var options = {method: 'HEAD', host: 'stackoverflow.com', port: 80, path: '/'};
+  var req = http.request(options, function(res) {
+      //console.log('*** = ' + JSON.stringify(res.headers));
+      }
+  );
+  req.end();
+*/
+
   res.send('<div>123!</div>');
 
   next();
 })
 
+//console.log(routes.main);
+
 app.get('/', routes.index);
-app.get('/222', routes.index);
-app.get('/users', users.list);
+app.get('/links', routes.main);
+app.get('/7', routes.new);
+//app.get('/users', users.list);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

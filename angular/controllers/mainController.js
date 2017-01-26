@@ -1,7 +1,7 @@
 
 var mainApp = angular.module('linkManagerApp');
 
-mainApp.controller('mainController', function($scope, dataService, $http) {
+mainApp.controller('mainController', function($scope, dataService, $http, $window) {
   // set the model
   $scope.linkManagerModel = dataService;
 
@@ -10,9 +10,12 @@ mainApp.controller('mainController', function($scope, dataService, $http) {
 
     $scope.linkManagerModel.currQuery = shortUrl;
     $scope.linkManagerModel.queryType = "URL";
-//debugger;
-    $http({method:'POST', url:'app.js/' + shortUrl, params: {'id': 1}}).
-      success(function (result) {
+
+    $window.location.href = '/links';
+
+    $http({method:'POST', url:'/333' , params: {}}).
+      success(function (result) {  //'id': 1     + shortUrl
+debugger;
         console.log(result);
     });
   } // searchLink
