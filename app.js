@@ -18,7 +18,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(express.favicon());
-//app.use(express.logger({immediate: true, format: 'default'}));
+
+if (app.get('env') === 'development') {
+  app.use(express.logger({immediate: true, format: 'default'}));
+}
+console.log("dsdsds "+app.get('env'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -32,7 +36,6 @@ app.use(express.session({
   cookie: config.get('session').cookie,
   store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
-
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'angular')));
@@ -54,18 +57,18 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
+      /*var errorHandler = express.errorHandler();
+      errorHandler(err, req, res, next);*/
 
-      res.send(err);
-        /*res.render('error', {
-            message: err.message,
-            error: err
-        });*/
+      res.send(401, "Username does not exist!");
     });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  //res.send(500);
+
   res.render('error', {
     message: err.message,
     error: {}

@@ -1,10 +1,9 @@
 
 var mainApp = angular.module('linkManagerApp');
 
-mainApp.controller('authorizationController', function($scope, $http, $location, dataService) {
+mainApp.controller('authorizationController', function($scope, $http, $window, dataService) {
   // set the model
   $scope.linkManagerModel = dataService;
-  $scope.linkManagerModel.hidePopup = true;
 
   $scope.errorText = '';
   $scope.showErrorText = false;
@@ -31,8 +30,7 @@ mainApp.controller('authorizationController', function($scope, $http, $location,
       data: {username: $scope.user.username, password: $scope.user.password}
     }).then(function successCallback(response) {
 
-//$location.url('/links');
-      window.location.href = '/main';
+      $window.location = '/main';
     }, function errorCallback(response) {
       $scope.errorText = response.data;
       $scope.showErrorText = true;
@@ -45,11 +43,11 @@ mainApp.controller('authorizationController', function($scope, $http, $location,
       method: 'POST',
       url: '/login',
       data: {username: $scope.user.username, password: $scope.user.password}
-    }).then(function successCallback(response) {
-
-      window.location.href = '/main';
-    }, function errorCallback(response) {
-
+    }).then(function(response) { // successCallback
+//debugger;
+      $window.location = '/main';
+    }, function(response) { // errorCallback
+//debugger;
       $scope.errorText = response.data;
       $scope.showErrorText = true;
     });

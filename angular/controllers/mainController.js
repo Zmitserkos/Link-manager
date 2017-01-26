@@ -1,8 +1,8 @@
 
 var mainApp = angular.module('linkManagerApp');
 
-mainApp.controller('mainController',
-                   function($scope, $http, dataService) {
+mainApp.controller('mainController', function($scope, $http, $window, dataService) {
+
   // set the model
   $scope.linkManagerModel = dataService;
 
@@ -11,30 +11,21 @@ mainApp.controller('mainController',
   }
 
   $scope.logOut = function () {
-    $http({method:'GET', url:'/logout'})
+    $http({method:'POST', url:'/logout'})
     .success(function (result) {
-
-      $scope.linkManagerModel.user = {
-        username: "Guest"
-      };
-
-      window.location.href = '/';
+      $window.location = '/';
     });
   }
 
   $scope.newLink = function () {
     $scope.linkManagerModel.deactivated = true;
-
     $scope.linkManagerModel.createMode = true;
-
     $scope.linkManagerModel.newLink = {};
   }
 
   $scope.editLink = function () {
     $scope.linkManagerModel.deactivated = true;
-
     $scope.linkManagerModel.createMode = false;
-
     $scope.linkManagerModel.newLink = {};
 
     $scope.linkManagerModel.newLink.shortUrl = $scope.linkManagerModel.currLink.shortUrl;
@@ -48,40 +39,73 @@ mainApp.controller('mainController',
       $scope.linkManagerModel.newLink.tags[i] = $scope.linkManagerModel.currLink.tags[i];
       $scope.linkManagerModel.showTagsList[i] = 1;
     }
-
   }
 
-  $scope.redirect = function () {
-    debugger;
-    $http({method:'GET', url: '/link'})
-    .success(function (result) {
+  $scope.searchByTag = function (tag) {
+    $scope.linkManagerModel.searchMode = true;
+    $scope.linkManagerModel.queryType = "tag";
+    $scope.linkManagerModel.queryText = tag;
 
-      //window.location.href = '/';
-    });
+    if (!tag) {
+      $scope.linkManagerModel.messageText = "Tag is empty!";
+      $scope.linkManagerModel.showMessageText = true;
+      return;
+    }
+
+    var params = {tag: tag};
+
+    $scope.linkManagerModel.loadData(params);
   }
 
   // button "Search"
-  $scope.searchLink = function(shortUrl) {
+  $scope.searchByUrl = function() {
     $scope.linkManagerModel.searchMode = true;
-debugger;
-    //$scope.linkManagerModel.currQuery = shortUrl;
-    //$scope.linkManagerModel.queryType = "URL";
+    $scope.linkManagerModel.queryType = "URL";
 
-    if (window.location.href != 'http://localhost:3001/main') {
-      window.location.href = '/main';
+    var searchText = $scope.linkManagerModel.searchText;
+    $scope.linkManagerModel.queryText = searchText;
+
+    if (searchText.substr(0, 7) === "te.st/2") {
+      var path = searchText.substr(7);
     }
 
-    $http({method:'POST', url:'/333' , params: {}}).
-      success(function (result) {  //'id': 1     + shortUrl
+    if (searchText.substr(0, 14) === "http://te.st/2") {
+      var path = searchText.substr(14);
+    }
 
-        console.log(result);
-    });
+    if (path) {
+      var shortUrlCode = parseInt(path, 36);
+    } else {
+      $scope.linkManagerModel.messageText = "Invalid short URL!";
+      $scope.linkManagerModel.showMessageText = true;
+      return;
+    }
+
+    if ($scope.linkManagerModel.user.id) {
+      var params = {shortUrlCode: shortUrlCode};
+
+      $scope.linkManagerModel.loadData(params);
+    } else {
+      $http({
+        method:'POST',
+        url:'/load',
+        data: {searchByUrl: true, shortUrlCode: shortUrlCode}
+      })
+      .success(function (result) {
+        window.location.href = '/main';
+      });
+      
+    }
   } // searchLink
 
   $scope.linkActivate = function (index) {
-
     $scope.linkManagerModel.currLinkIndex = index;
     $scope.linkManagerModel.currLink = $scope.linkManagerModel.linksList[index];
   } // linkActivate
+
+  $scope.loadProfile = function () {
+    $scope.linkManagerModel.searchMode = false;
+    $scope.linkManagerModel.loadData({loadProfile: true});
+  } // loadProfile
 
 });

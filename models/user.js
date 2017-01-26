@@ -8,7 +8,6 @@ var userSchema = new Schema({
   username: {
     type: String,
     unique: true,
-    //index: {unique: true, name: 'kolbas'},
     required: true
   },
   hashedPassword: {
@@ -38,7 +37,7 @@ userSchema.virtual('password')
   });
 
 userSchema.methods.checkPassword = function(password) {
-  return this.encryptPassword(password) === this.hashedPassword;
+    return this.encryptPassword(password) === this.hashedPassword;
 }
 
 /*schema.statics.register = function(username, password, callback) {

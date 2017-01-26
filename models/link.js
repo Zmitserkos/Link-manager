@@ -4,10 +4,8 @@ var mongoose = require('lib/mongoose'),
 
 var Counter = require('models/counter').Counter;
 
-// _id, shortUrlCode, url, user, description, tags, counter
-
 var linkSchema = new Schema({
-  shortUrlCode: {
+  shortUrlCode: { // decimal number that will be converted to base-36 number
     type: Number,
     unique: true/*,
     required: true*/
@@ -16,11 +14,11 @@ var linkSchema = new Schema({
     type: String,
     required: true
   },
-  username: {
+  username: { // for several queries
     type: String,
     required: true
   },
-  userId: {
+  userId: { // for search by id
     type: Schema.Types.ObjectId,
     required: true
   },
@@ -30,7 +28,7 @@ var linkSchema = new Schema({
   tags: {
     type: [String]
   },
-  counter: {
+  counter: { // counter of clicks
     type: Number,
     default: 0,
     required: true
@@ -48,7 +46,6 @@ linkSchema.pre('save', function(next) {
     next(err, counter);
   });
 });
-
 
 var link = mongoose.model('Link', linkSchema);
 

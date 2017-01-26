@@ -21,10 +21,12 @@
 
       <div class="row main-header">
         <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-          <a href="/"><div id="main-logo">Te.sT</div></a>
+          <div id="main-logo">Te.sT</div>
 
           <div class="visible-xs">
-            <span class="auth-text"><b>{{linkManagerModel.user.username}}</b> <i class="fa fa-user-o fa-lg">&nbsp;</i></span>
+            <span class="main-auth-text">Signed in as <b>{{linkManagerModel.user.username}}</b>
+              <i class="fa fa-user-o fa-lg main-user-icon">&nbsp;</i>
+            </span>
           </div>
 
         </div>
@@ -32,12 +34,13 @@
         <div class="col-sm-10 col-md-10 col-lg-10">
           <div class="main-top-btn-container">
             <div id="top-btns"><% include topButtons %></div>
-            <span class="auth-text hidden-xs"><b>&nbsp;{{linkManagerModel.user.username}}</b></span>
-            <span class="auth-text hidden-xs hidden-sm">Signed in as </span>
+            <span class="main-auth-text hidden-xs">Signed in as <b>{{linkManagerModel.user.username}}</b>
+              <i class="fa fa-user-o fa-lg main-user-icon" ng-show="linkManagerModel.user.id" ng-click="loadProfile()">&nbsp;</i>
+            </span>
 
-            <form class="hidden-xs main-search-block" ng-submit="searchLink()">
+            <form class="hidden-xs hidden-sm main-search-block" ng-submit="searchByUrl()">
               <button class="main-search-btn">SEARCH</button>
-              <input class="main-search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.queryText" />
+              <input class="main-search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.searchText" />
             </form>
 
           </div>
@@ -45,11 +48,11 @@
 
       </div>
 
-      <div class="row">
-        <div class="visible-xs">
-          <form class="input-block main-search-form" ng-submit="searchLink()">
-              <input class="search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.queryText">
-              <button class="search-btn">SEARCH</button>
+      <div class="row main-additional-headed">
+        <div class="visible-xs visible-sm col-sm-8 col-sm-offset-2">
+          <form class="input-block main-search-form" ng-submit="searchByUrl()">
+              <input class="search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.searchText">
+              <input type="submit" class="search-btn" value="SEARCH" />
           </form>
         </div>
       </div>
@@ -60,10 +63,13 @@
             Searching by {{linkManagerModel.queryType}}: <b class="main-query-text">{{linkManagerModel.queryText}}</b>
           </span>
           <br class="visible-xs" ng-show="linkManagerModel.searchMode">
-          <span class="main-info-text">Total links: <b class="main-info-data">{{linkManagerModel.user.totalLinks}}</b></span>
+          <span class="main-info-text">Total links: <b class="main-info-data">{{linkManagerModel.linksList.length}}</b></span>
           <br class="visible-xs">
-          <span class="main-info-text">Total clicks: <b class="main-info-data">{{linkManagerModel.user.totalClicks}}</b></span>
-          <br class="visible-xs">
+          <span class="main-info-text" ng-hide="linkManagerModel.searchMode">
+            Total clicks: <b class="main-info-data">{{linkManagerModel.user.totalClicks}}</b>
+            <br class="visible-xs">
+          </span>
+
 
           <div class="visible-xs">
             <p class="main-info-text">
@@ -79,7 +85,7 @@
             </p>
             <p class="main-info-text">
               Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
-                      <b class="main-info-data"><a class="main-container-tags">{{tag}}</a></b>
+                      <b class="main-info-data main-container-tags" ng-click="searchByTag(tag)">{{tag}}</b>
                     </span>
             </p>
             <p class="main-info-text">
@@ -105,7 +111,7 @@
 
         <div id="main-container" class="hidden-xs col-sm-8 col-md-8 col-lg-8" ng-show="linkManagerModel.linksList.length">
           <p class="main-container-text">
-            Short URL: <b class="main-info-data" ng-click="redirect()">{{linkManagerModel.currLink.shortUrl}}</b>
+            Short URL: <b class="main-info-data">{{linkManagerModel.currLink.shortUrl}}</b>
             <button type="button" class="main-container-button" data-toggle="modal"
                     data-target="#editLinkModal" ng-click="editLink()">Edit</button>
           </p>
@@ -117,7 +123,7 @@
           </p>
           <p class="main-container-text">
             Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
-                    <b class="main-info-data main-container-tags">{{tag}}</b>
+                    <b class="main-info-data main-container-tags" ng-click="searchByTag(tag)">{{tag}}</b>
                   </span>
           </p>
           <p class="main-container-text">
