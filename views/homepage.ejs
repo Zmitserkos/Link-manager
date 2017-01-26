@@ -26,8 +26,7 @@
         </div>
         <div class="col-xs-12 col-sm-9 col-md-8 col-lg-6 myColoredCol" >
           <div class="top-btn-container">
-            <button class="top-btn register" ng-click="authorize(1)">Register</button>
-            <button class="top-btn login" ng-click="authorize(2)">Log in</button>
+            <div id="top-btns"><% include topButtons %></div>
             <span class="auth-text hidden-xs">Signed in as <b>{{linkManagerModel.user.username}}</b></span>
           </div>
         </div>

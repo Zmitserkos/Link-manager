@@ -12,7 +12,7 @@ mainApp.controller('mainController',
     $scope.linkManagerModel.currQuery = shortUrl;
     $scope.linkManagerModel.queryType = "URL";
 
-    $window.location.href = '/links';
+    window.location.href = '/main';
 
     $http({method:'POST', url:'/333' , params: {}}).
       success(function (result) {  //'id': 1     + shortUrl
@@ -21,21 +21,13 @@ mainApp.controller('mainController',
     });
   } // searchLink
 
-  //
-  $scope.authorize = function (label) {
-
+  $scope.registerForm = function () {
     $scope.linkManagerModel.deactivated = true;
 
     var popupElem = document.getElementById("popup");
-
     var angChildElem = angular.element(popupElem.firstElementChild);
 
-    if (label === 1 &&
-        angChildElem.hasClass("register-form")) { // "Register"
-      $scope.linkManagerModel.hidePopup = false;
-      return;
-    } else if (label === 2 &&
-               angChildElem.hasClass("login-form")) { // "Log in"
+    if (angChildElem.hasClass("register-form")) {
       $scope.linkManagerModel.hidePopup = false;
       return;
     }
@@ -43,8 +35,8 @@ mainApp.controller('mainController',
     // remove all child elements of popupElem
     angular.element(popupElem).empty();
 
-    // if (!authPopup.children.length) {
-    $http({ method:'GET', url:'/popup' , params: {'id': label} }).success(function (result) {  
+    $http({method:'GET', url:'/popup/register'})
+    .success(function (result) {
 
       var authPopup = document.getElementById("popup");
 
@@ -57,14 +49,66 @@ mainApp.controller('mainController',
 
       $scope.linkManagerModel.hidePopup = false;
     });
+  }
 
-  } // authorize
+  $scope.loginForm = function () {
+    $scope.linkManagerModel.deactivated = true;
+
+    var popupElem = document.getElementById("popup");
+    var angChildElem = angular.element(popupElem.firstElementChild);
+
+    if (angChildElem.hasClass("login-form")) {
+      $scope.linkManagerModel.hidePopup = false;
+      return;
+    }
+
+    // remove all child elements of popupElem
+    angular.element(popupElem).empty();
+
+    $http({method:'GET', url:'/popup/login'})
+    .success(function (result) {
+
+      var authPopup = document.getElementById("popup");
+
+      var popupContent = angular.element(result);
+
+      var compiledElem = $compile(popupContent)($scope);
+      if (compiledElem) { // compiledElem
+        angular.element(authPopup).append(compiledElem);
+      }
+
+      $scope.linkManagerModel.hidePopup = false;
+    });
+  }
+
+  $scope.logOut = function () {
+    $http({method:'GET', url:'/logout'})
+    .success(function (result) {
+
+      $scope.linkManagerModel.user = {
+        username: "Guest"
+      };
+
+      window.location.href = '/';
+/*
+      var topButtons = document.getElementById("top-btns");
+      var guestButtons = angular.element(result);
+
+      angular.element(topButtons).empty();
+
+      var compiledElem = $compile(guestButtons)($scope);
+      if (compiledElem) { // compiledElem
+        angular.element(topButtons).append(compiledElem);
+      }
+*/
+    });
+  }
 
   // button "Create short URL"
   $scope.createShortUrl = function () {
 
     $scope.linkManagerModel.deactivated = true;
-    $scope.linkManagerModel.editLinkMode = true;
+    $scope.linkManagerModel.editLinkMode = true; // ???
     $scope.linkManagerModel.createLink = true;
   } // createShortUrl
 

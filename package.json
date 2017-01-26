@@ -15,6 +15,6 @@
     "async": "*",
     "nconf": "*",
     "mongoose": "*",
-    "connect-mongo": "*"
+    "connect-mongo": "~1.2.0"
   }
 }

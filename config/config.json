@@ -10,5 +10,14 @@
       },
       "url": "mongodb://localhost/linkManager"
     }
+  },
+  "session": {
+    "secret": "testtask",
+    "key": "sid",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": null
+    }
   }
 }

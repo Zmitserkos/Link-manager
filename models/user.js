@@ -20,7 +20,7 @@ var schema = new Schema({
     required: true
   }
 }, {
-  //safe: null
+  safe: null
 });
 
 schema.methods.encryptPassword = function(password) {
@@ -41,7 +41,7 @@ schema.methods.checkPassword = function(password) {
   return this.encryptPassword(password) === this.hashedPassword;
 }
 
-schema.statics.register = function(username, password, callback) {
+/*schema.statics.register = function(username, password, callback) {
   var User = this;
 
   async.waterfall([
@@ -65,8 +65,7 @@ schema.statics.register = function(username, password, callback) {
 
 schema.statics.login = function(username, password, callback) {
 
-}
-
+}*/
 
 //schema.index({username: 1}, {unique: true});
 
