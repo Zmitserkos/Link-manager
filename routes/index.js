@@ -4,10 +4,8 @@ module.exports = function(app) {
   // Home page
   app.get('/', require('./homepage').get);
 
-  //app.get('/popup/register', require('./register').get);
   app.post('/register', require('./register').post);
 
-  //app.get('/popup/login', require('./login').get);
   app.post('/login', require('./login').post);
 
   app.get('/logout', require('./logout').get);
@@ -20,14 +18,6 @@ module.exports = function(app) {
   //
   app.post('/shortlink', require('./shortlink').post);
 }
-
-
-
-/*app.post('/register', function(req, res, next) {
-  res.send("sdfsd");
-});
-*/
-
 
 
 /*

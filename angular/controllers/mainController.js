@@ -25,14 +25,6 @@ mainApp.controller('mainController',
     $scope.linkManagerModel.deactivated = true;
   }
 
-  /*$scope.registerForm = function () {
-    $scope.linkManagerModel.deactivated = true;
-  }
-
-  $scope.loginForm = function () {
-    $scope.linkManagerModel.deactivated = true;
-  }*/
-
   $scope.logOut = function () {
     $http({method:'GET', url:'/logout'})
     .success(function (result) {

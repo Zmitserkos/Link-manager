@@ -52,12 +52,12 @@ a {
   font-family: arial;
 }
 
-.login, .logoff {
+.login, .logoff, .tag-modal, .tag-close-btn-modal {
   background: grey;
   color: white;
 }
 
-.register, .new-link {
+.register, .new-link, .tag-btn {
   background: rgba(255, 185, 55, 1);
   color: rgba(60, 60, 60, 1);
 }
@@ -183,30 +183,6 @@ left: 40%;
 
 .text-warning {
   color: red;
-}
-
-.popup-input {
-  height: 40px;
-  width: 100%;
-  padding-left: 10px;
-  margin-bottom: 20px;
-  border-radius: 6px;
-  border: 1px solid rgba(120, 120, 120, 1);
-}
-
-.popup-btn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-
-  width: 260px;
-  height: 40px;
-
-  margin: 20px;
-  color: white;
-  border-radius: 6px;
-  border: 1px solid rgba(120, 120, 120, 1);
-  background: rgba(255, 140, 10, 1);
 }
 
 /*screen-xs*/

@@ -1,0 +1,62 @@
+
+<!--
+<div id="loginModal" class="modal fade" tabindex="-1" >
+  <div class="modal-dialog login-modal" ng-controller="authorizationController">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" ng-click="close()">×</button>
+        <span class="modal-title">Welcome!</span>
+
+      </div>
+
+      <div class="modal-body" style="padding: 20px;">
+        <form ng-submit="login()">
+          <span class="text-warning" ng-show="showErrorText">{{errorText}}</span>
+          <input class="popup-input" type="username" ng-model="user.username" placeholder="Username" required><br>
+          <input class="popup-input" type="password" ng-model="user.password" placeholder="Password" required><br>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div id="editLinkModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog edit-link-modal" ng-controller="editLinkController">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" ng-click="activate()">×</button>
+        <span class="modal-title">Create short link</span>
+      </div>
+
+      <div class="modal-body">
+        <form ng-submit="saveLink()">
+          <p class="title-input-modal">INPUT LONG URL</p>
+          <textarea class="input-text-link-modal long-url-modal" ng-model="link.longUrl"></textarea>
+
+          <p class="title-input-modal">SHORT URL</p>
+          <textarea class="input-text-link-modal short-url-modal" ng-model="link.shortUrl"></textarea>
+
+          <p class="title-input-modal">DESCRIPTION</p>
+          <textarea class="input-text-link-modal description-modal" ng-model="link.description"></textarea>
+
+          <div class="tags-container-modal">
+
+            <p class="title-input-modal tag-title-modal">TAGS</p>
+            <div class="tag-modal" ng-repeat="tag in link.tags">
+              <span>{{tag}}</span>
+              <button class="tag-close-btn-modal" ng-clic=delTag($index)>×</button>
+            </div>
+
+          </div>
+          <input class="input-modal input-tag-modal"></input>
+          <button class="tag-btn tag-btm-modal" ng-click=addTag()>ADD</button>
+
+          <input type="submit" value="CREATE" class="btn btn-modal btn-link-modal" />
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+
+<div id="loginModal" class="modal fade" tabindex="-1" >
+  <div class="modal-dialog login-modal" ng-controller="authorizationController">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" ng-click="activate()">×</button>
+        <span class="modal-title">Welcome!</span>
+      </div>
+
+      <div class="modal-body">
+        <form ng-submit="login()">
+          <span class="text-warning" ng-show="showErrorText">{{errorText}}</span>
+          <input class="input-modal" type="username" ng-model="user.username" placeholder="Username" required><br>
+          <input class="input-modal" type="password" ng-model="user.password" placeholder="Password" required><br>
+
+          <input type="submit" value="Log in" class="btn btn-modal btn-auth-modal" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

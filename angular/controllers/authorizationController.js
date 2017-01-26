@@ -11,7 +11,7 @@ mainApp.controller('authorizationController', function($scope, $http, $location,
 
   $scope.user = {username: '', password: '', passwordConf : ''}
 
-  $scope.close = function () {
+  $scope.activate = function () {
     $scope.linkManagerModel.deactivated = false;
   }
 
