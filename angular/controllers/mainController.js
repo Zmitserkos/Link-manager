@@ -1,7 +1,8 @@
 
 var mainApp = angular.module('linkManagerApp');
 
-mainApp.controller('mainController', function($scope, dataService, $http, $window) {
+mainApp.controller('mainController',
+                   function($scope, $http, $window, $compile, dataService) {
   // set the model
   $scope.linkManagerModel = dataService;
 
@@ -11,36 +12,56 @@ mainApp.controller('mainController', function($scope, dataService, $http, $windo
     $scope.linkManagerModel.currQuery = shortUrl;
     $scope.linkManagerModel.queryType = "URL";
 
-    $window.location.href = '/links';
+    window.location.href = '/main';
 
     $http({method:'POST', url:'/333' , params: {}}).
       success(function (result) {  //'id': 1     + shortUrl
-debugger;
+//debugger;
         console.log(result);
     });
   } // searchLink
 
-  //
-  $scope.authorize = function (label) {
-
+  $scope.deactivate = function () {
     $scope.linkManagerModel.deactivated = true;
+  }
 
-    if (label === 1 || label === 2) {
-      $scope.linkManagerModel.authorize = true;
+  /*$scope.registerForm = function () {
+    $scope.linkManagerModel.deactivated = true;
+  }
 
-      if (label === 1) {
-        $scope.linkManagerModel.registration = true;
+  $scope.loginForm = function () {
+    $scope.linkManagerModel.deactivated = true;
+  }*/
+
+  $scope.logOut = function () {
+    $http({method:'GET', url:'/logout'})
+    .success(function (result) {
+
+      $scope.linkManagerModel.user = {
+        username: "Guest"
+      };
+
+      window.location.href = '/';
+/*
+      var topButtons = document.getElementById("top-btns");
+      var guestButtons = angular.element(result);
+
+      angular.element(topButtons).empty();
+
+      var compiledElem = $compile(guestButtons)($scope);
+      if (compiledElem) { // compiledElem
+        angular.element(topButtons).append(compiledElem);
       }
-    }
-  } // authorize
+*/
+    });
+  }
 
   // button "Create short URL"
   $scope.createShortUrl = function () {
 
     $scope.linkManagerModel.deactivated = true;
-    $scope.linkManagerModel.editLinkMode = true;
+    $scope.linkManagerModel.editLinkMode = true; // ???
     $scope.linkManagerModel.createLink = true;
   } // createShortUrl
-
 
 });

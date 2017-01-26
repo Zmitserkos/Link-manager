@@ -13,8 +13,10 @@
 </head>
 <body>
 
+
   <div id="main" ng-controller="mainController" ng-class="linkManagerModel.deactivated ? 'disactivated' : ''">
     <div class="container-fluid">
+
       <div class="row">
         <div class="col-xs-6 col-sm-3 col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-2">
           <div id="logo">Te.sT</div>
@@ -23,9 +25,8 @@
           <span class="auth-text"><b>{{linkManagerModel.user.username}}</b> <i class="fa fa-user-o fa-lg">&nbsp;</i></span>
         </div>
         <div class="col-xs-12 col-sm-9 col-md-8 col-lg-6 myColoredCol" >
-          <div class="top-button-container">
-            <button class="top-button register" ng-click="authorize(1)">Register</button>
-            <button class="top-button login" ng-click="authorize(2)">Log in</button>
+          <div class="top-btn-container">
+            <div id="top-btns"><% include topButtons %></div>
             <span class="auth-text hidden-xs">Signed in as <b>{{linkManagerModel.user.username}}</b></span>
           </div>
         </div>
@@ -47,16 +48,15 @@
           </form>
         </div>
       </div>
-    </div>    
-  </div>
-  <div id="auth-popup" ng-show="linkManagerModel.deactivated"
-       style="">
+    </div>
 
   </div>
 
+  <div id="popup">
+  </div>
 
   <script src="js/angular.min.js"></script>
-  <script src="js/angular-animate.min.js"></script>
+  <script src="js/angular-animate.js"></script>
 
   <script src="modules/mainApp.js"></script>
 

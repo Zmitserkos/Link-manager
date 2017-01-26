@@ -6,10 +6,10 @@ mainApp.factory('dataService', function($http) {
   // create the model
   var mainModel = {
 
-    authorize: false,
+    deactivated: false,
+    //hidePopup: true,
     editLinkMode: false,
     createLink: false,
-    deactivated: false,
 
     currUrl: null,
     currQuery: null,
@@ -32,7 +32,25 @@ mainApp.factory('dataService', function($http) {
 
     loadData: function () {
 
-    } // loadData
+    }, // loadData
+
+    getUser: function () {
+      var model = this;
+
+      $http({
+        method: 'GET',
+        url: '/user', //user
+      }).then(function (result) {
+        debugger;
+        if (result) {
+          model.user = result.data;
+        }
+      },
+      function (result) {
+        debugger;
+
+      });
+    } // getUser
 
   } // mainModel
 

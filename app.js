@@ -2,11 +2,12 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 
+var config = require('config');
+var mongoose = require('lib/mongoose');
+mongoose.set('debug', true);
+
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var routes = require('./routes');
-//var users = require('./routes/user');
 
 var app = express();
 
@@ -16,37 +17,31 @@ app.engine('ejs', require('ejs-locals'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(express.favicon());
+//app.use(express.logger({immediate: true, format: 'default'}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+
+var MongoStore = require('connect-mongo')(express);
+
+app.use(express.session({
+  secret: config.get('session').secret,
+  key: config.get('session').key,
+  cookie: config.get('session').cookie,
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'angular')));
 
 app.use(app.router);
 
-app.use(function (req, res, next) {
-  console.log('URL///===: ' + req.url);
+require('routes')(app);
 
-/*  var options = {method: 'HEAD', host: 'stackoverflow.com', port: 80, path: '/'};
-  var req = http.request(options, function(res) {
-      //console.log('*** = ' + JSON.stringify(res.headers));
-      }
-  );
-  req.end();
-*/
 
-  res.send('<div>123!</div>');
-
-  next();
-})
-
-//console.log(routes.main);
-
-app.get('/', routes.index);
-app.get('/links', routes.main);
-app.get('/7', routes.new);
-//app.get('/users', users.list);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
@@ -61,20 +56,22 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        res.render('error', {
+
+      res.send(err);
+        /*res.render('error', {
             message: err.message,
             error: err
-        });
+        });*/
     });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
 });
 
 

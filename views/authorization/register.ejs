@@ -1,0 +1,20 @@
+<form class="auth-form register-form" ng-controller="authorizationController"
+      ng-submit="register()" ng-hide="linkManagerModel.hidePopup">
+	<div class="auth-block">
+
+		<div class="popup-header">
+			<span>Join us!</span>
+			<div class="auth-close" ng-click="close()">
+				<i class="fa fa-window-close-o fa-lg">&nbsp;</i>
+			</div>
+		</div>
+
+		<div style="padding: 20px;">
+			<span class="text-warning" ng-show="showErrorText">{{errorText}}</span>
+			<input class="popup-input" type="username" ng-model="user.username" placeholder="Username" required><br>
+			<input class="popup-input" type="password" ng-model="user.password" placeholder="Password" required><br>
+      <input class="popup-input" type="password" ng-model="user.passwordConf" placeholder="Confirm password" required><br>
+			<input type="submit" value="Register" class="btn btn-primary popup-btn" />
+		</div>
+	</div>
+</form>
