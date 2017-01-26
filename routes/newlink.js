@@ -9,6 +9,10 @@ function getShortLinkByCode(linkCode) {
 exports.post = function(req, res, next) {
   var url = req.body.url;
 
+/*  if (!req.session.user) {
+    error
+  }*/
+
   Link.findOne({userId: req.session.user, url: url}, function (err, link) {
     if (err) next(err);
 

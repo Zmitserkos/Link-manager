@@ -37,7 +37,7 @@
 
             <form class="hidden-xs main-search-block" ng-submit="searchLink()">
               <button class="main-search-btn">SEARCH</button>
-              <input class="main-search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.queryText" />
+              <input class="main-search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.searchText" />
             </form>
 
           </div>
@@ -48,8 +48,8 @@
       <div class="row">
         <div class="visible-xs">
           <form class="input-block main-search-form" ng-submit="searchLink()">
-              <input class="search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.queryText">
-              <button class="search-btn">SEARCH</button>
+              <input class="search-input" placeholder="SEARCH BY LINK" ng-model="linkManagerModel.searchText">
+              <input type="submit" class="search-btn" value="SEARCH" />
           </form>
         </div>
       </div>
@@ -60,10 +60,13 @@
             Searching by {{linkManagerModel.queryType}}: <b class="main-query-text">{{linkManagerModel.queryText}}</b>
           </span>
           <br class="visible-xs" ng-show="linkManagerModel.searchMode">
-          <span class="main-info-text">Total links: <b class="main-info-data">{{linkManagerModel.user.totalLinks}}</b></span>
+          <span class="main-info-text">Total links: <b class="main-info-data">{{linkManagerModel.linksList.length}}</b></span>
           <br class="visible-xs">
-          <span class="main-info-text">Total clicks: <b class="main-info-data">{{linkManagerModel.user.totalClicks}}</b></span>
-          <br class="visible-xs">
+          <span class="main-info-text" ng-hide="linkManagerModel.searchMode">
+            Total clicks: <b class="main-info-data">{{linkManagerModel.user.totalClicks}}</b>
+            <br class="visible-xs">
+          </span>
+
 
           <div class="visible-xs">
             <p class="main-info-text">
@@ -79,7 +82,7 @@
             </p>
             <p class="main-info-text">
               Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
-                      <b class="main-info-data"><a class="main-container-tags">{{tag}}</a></b>
+                      <b class="main-info-data main-container-tags" ng-click="searchByTag(tag)">{{tag}}</b>
                     </span>
             </p>
             <p class="main-info-text">
@@ -117,7 +120,7 @@
           </p>
           <p class="main-container-text">
             Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
-                    <b class="main-info-data main-container-tags">{{tag}}</b>
+                    <b class="main-info-data main-container-tags" ng-click="searchByTag(tag)">{{tag}}</b>
                   </span>
           </p>
           <p class="main-container-text">

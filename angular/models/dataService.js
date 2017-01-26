@@ -25,6 +25,7 @@ mainApp.factory('dataService', function($http) {
     currLink: null,
     currLinkIndex: 0,
 
+    searchText: "",
     queryText: null,
     queryType: "URL",
 
@@ -34,7 +35,7 @@ mainApp.factory('dataService', function($http) {
 
     showTagsList: [],
 
-    user: {username: "Guest", totalLinks: 0, totalClicks: 0},
+    user: {username: "Guest", totalClicks: 0},
 
     linksList: [],
 
@@ -77,7 +78,6 @@ mainApp.factory('dataService', function($http) {
           var linksCount = result.data.linksList.length;
 
           model.user = {username: result.data.user.username,
-                        totalLinks : linksCount,
                         totalClicks: 0};
 
           model.linksList = result.data.linksList;

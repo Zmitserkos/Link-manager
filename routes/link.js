@@ -3,21 +3,47 @@ var Link = require('models/link').Link;
 var User = require('models/user').User;
 
 exports.get = function(req, res, next) {
-  if (req.session.user) {
-    User.findById(req.session.user, function (err, user) {
+  var tag = req.query.tag;
+  var shortUrlCode = req.query.shortUrlCode;
+
+  if (tag) {
+    Link.find({tags: tag}).sort({shortUrlCode: -1 })
+        .select({ _id: 1, shortUrlCode: 1, url: 1, description: 1, tags: 1, counter: 1, username: 1})
+        .exec(function (err, linksList) {
       if (err) next(err);
 
-      Link.find({userId: req.session.user}).sort({shortUrlCode: -1 })
-          .select({ _id: 1, shortUrlCode: 1, url: 1, description: 1, tags: 1, counter: 1})
-          .exec(function (err, links) {
-        res.send({user: {id: user._id, username: user.username},
-                  linksList: links});
-      });
+      res.send(linksList);
     });
+  } else if (shortUrlCode) {
+    Link.find({shortUrlCode: shortUrlCode}).sort({shortUrlCode: -1 })
+        .select({ _id: 1, shortUrlCode: 1, url: 1, description: 1, tags: 1, counter: 1, username: 1})
+        .exec(function (err, linksList) {
+      if (err) next(err);
+
+      res.send(linksList);
+    });
+  } else {
+    if (req.session.user) {
+      User.findById(req.session.user, function (err, user) {
+        if (err) next(err);
+
+        Link.find({userId: req.session.user}).sort({shortUrlCode: -1 })
+            .select({ _id: 1, shortUrlCode: 1, url: 1, description: 1, tags: 1, counter: 1})
+            .exec(function (err, links) {
+          if (err) next(err);
+
+          res.send({user: {id: user._id, username: user.username},
+                    linksList: links});
+        });
+      });
+    }
   }
 }
 
 exports.post = function(req, res, next) {
+
+// session
+
   var linkId = req.body.id;
   var description = req.body.description;
   var tags = req.body.tags;

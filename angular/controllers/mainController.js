@@ -60,21 +60,86 @@ mainApp.controller('mainController',
     });
   }
 
-  // button "Search"
-  $scope.searchLink = function(shortUrl) {
+  $scope.searchByTag = function (tag) {
     $scope.linkManagerModel.searchMode = true;
-debugger;
-    //$scope.linkManagerModel.currQuery = shortUrl;
-    //$scope.linkManagerModel.queryType = "URL";
+    $scope.linkManagerModel.queryType = "tag";
+    $scope.linkManagerModel.queryText = tag;
 
-    if (window.location.href != 'http://localhost:3001/main') {
-      window.location.href = '/main';
+    $http({
+      method: 'GET',
+      url: '/link',
+      params: {tag: tag}
+    }).then(function successCallback(result) {
+      if (result) {
+
+        var linksCount = result.data.length;
+
+        $scope.linkManagerModel.linksList = result.data;
+
+        for (var i = 0; i < linksCount; i++) {
+
+$scope.linkManagerModel.linksList[i].id = $scope.linkManagerModel.linksList[i]._id;
+          $scope.linkManagerModel.linksList[i].shortUrl = "te.st/2" + $scope.linkManagerModel.linksList[i].shortUrlCode.toString(36);
+        }
+
+        $scope.linkManagerModel.setCurrLink(0);
+      }
+    }, function errorCallback(response) {
+/*$scope.errorText = response.data;
+      $scope.showErrorText = true;*/
+    });
+  }
+
+  // button "Search"
+  $scope.searchLink = function() {
+    debugger;
+    $scope.linkManagerModel.searchMode = true;
+    $scope.linkManagerModel.queryType = "URL";
+
+    var searchText = $scope.linkManagerModel.searchText;
+    $scope.linkManagerModel.queryText = searchText;
+
+    if (searchText.substr(0, 7) === "te.st/2") {
+      var path = searchText.substr(7);
     }
 
-    $http({method:'POST', url:'/333' , params: {}}).
-      success(function (result) {  //'id': 1     + shortUrl
+    if (searchText.substr(0, 14) === "http://te.st/2") {
+      var path = searchText.substr(14);
+    }
 
-        console.log(result);
+    if (path) {
+      var shortUrlCode = parseInt(path, 36);
+    } else {
+      return;
+// error URL
+    }
+
+    /*if (window.location.href != 'http://localhost:3001/main') {
+      window.location.href = '/main';
+    }*/
+
+    $http({
+      method: 'GET',
+      url: '/link',
+      params: {shortUrlCode: shortUrlCode}
+    }).then(function successCallback(result) {
+      if (result) {
+
+        var linksCount = result.data.length;
+
+        $scope.linkManagerModel.linksList = result.data;
+
+        for (var i = 0; i < linksCount; i++) {
+
+$scope.linkManagerModel.linksList[i].id = $scope.linkManagerModel.linksList[i]._id;
+          $scope.linkManagerModel.linksList[i].shortUrl = "te.st/2" + $scope.linkManagerModel.linksList[i].shortUrlCode.toString(36);
+        }
+
+        $scope.linkManagerModel.setCurrLink(0);
+      }
+    }, function errorCallback(result) {
+/*$scope.errorText = response.data;
+      $scope.showErrorText = true;*/
     });
   } // searchLink
 

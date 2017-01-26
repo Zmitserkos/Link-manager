@@ -59,7 +59,6 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
         $scope.linkManagerModel.addToLinksList($scope.linkManagerModel.newLink);
 
         $scope.linkManagerModel.createMode = false;
-        $scope.linkManagerModel.user.totalLinks++;
         $scope.linkManagerModel.user.totalClicks += response.data.counter;
 
       }, function errorCallback(response) {
