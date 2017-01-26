@@ -3,6 +3,7 @@ var mainApp = angular.module('linkManagerApp');
 
 mainApp.factory('dataService', function($http) {
 
+  // function for searching the element position in the array
   if ([].indexOf) {
     var findFunc = function(array, value) {
       return array.indexOf(value);
@@ -16,39 +17,43 @@ mainApp.factory('dataService', function($http) {
     }
   }
 
+  var guest = {username: "Guest", totalClicks: 0};
+
   // create the model
   var mainModel = {
 
-    deactivated: false,
+    deactivated: false, // parameter for changing opacity of backgroud elements while modal window occurs
 
-    newLink: null,
-    currLink: null,
-    currLinkIndex: 0,
+    linksList: [], // array of objects that contain info about links (url, short url, tags, description etc.)
+    newLink: null, // object for creating new link or editing existing one
+    currLink: null, // object (from linksList) that is currently displayed in the container field of web page
+    currLinkIndex: 0, // index of currLink object in linksList array
 
-    searchText: "",
-    queryText: null,
-    queryType: "URL",
+    searchText: "", // text of input element for search
+    queryText: null, // text of search query
+    queryType: "URL", // type of search query
 
+    searchMode: null, // search mode
+    createMode: null, // mode of new link creating; createMode===false - link editing mode
 
-    searchMode: null,
-    createMode: null,
+    showTagsList: [], // array for tags editing
 
-    showTagsList: [],
+    user: guest, // current user object
 
-    user: {username: "Guest", totalClicks: 0},
+    messageText: '', // error message
+    showMessageText: false,
 
-    linksList: [],
-
+    // sets current object from linksList to display in the container field of web page
     setCurrLink: function (index) {
       var model = this;
 
       if (index > -1 && index < model.linksList.length) {
         model.currLinkIndex = index;
-
         model.currLink = model.linksList[index];
       }
     },
 
+    // adds link object at the beginning of linkList
     addToLinksList: function (linkObj) {
       var model = this;
       model.currLink = {};
@@ -57,7 +62,6 @@ mainApp.factory('dataService', function($http) {
         if (key!=="tags") {
           model.currLink[key] = linkObj[key];
         } else { // key==="tags"
-
           model.currLink[key] = [].concat(linkObj[key]);
         }
       }
@@ -66,38 +70,63 @@ mainApp.factory('dataService', function($http) {
       model.currLinkIndex = 0;
     },
 
-    loadData: function () {
+    // loads initial data from server
+    loadData: function (params) {
       var model = this;
+
+      if (!params) {
+        params = {
+          loadUser: true
+        };
+      }
 
       $http({
         method: 'GET',
-        url: '/link'
-      }).then(function (result) {
+        url: '/load',
+        params: params
+      }).then(function (response) { // successCallback
+debugger;
+        if (response) {
+          if (response.data.user) { // user obect loaded
+            model.user = {id: response.data.user.id,
+                          username: response.data.user.username,
+                          totalClicks: 0};
 
-        if (result) {
-          var linksCount = result.data.linksList.length;
+          } else {
+            if (params.loadUser) {
+              model.user = guest;
+            }
 
-          model.user = {username: result.data.user.username,
-                        totalClicks: 0};
-
-          model.linksList = result.data.linksList;
-
-          for (var i = 0; i < linksCount; i++) {
-            debugger;
-model.linksList[i].id = model.linksList[i]._id;
-            model.linksList[i].username = model.user.username;
-            model.linksList[i].shortUrl = "te.st/2" + model.linksList[i].shortUrlCode.toString(36);
-
-            model.user.totalClicks += model.linksList[i].counter;
+            if (model.user.id) { // user logged in
+              model.user.totalClicks = 0;
+            }
           }
 
-          model.setCurrLink(0);
+          if (response.data.linksList) {
+            var linksCount = response.data.linksList.length;
+            model.linksList = response.data.linksList;
+
+            for (var i = 0; i < linksCount; i++) {
+              model.linksList[i].id = model.linksList[i]._id;
+              delete model.linksList[i]._id;
+
+              model.linksList[i].shortUrl = "te.st/2" + model.linksList[i].shortUrlCode.toString(36);
+
+              if (model.user.id && !model.linksList[i].username) {
+                model.linksList[i].username = model.user.username;
+                model.user.totalClicks += model.linksList[i].counter;
+              }
+            }
+
+            model.setCurrLink(0);
+          }
         }
       },
-      function (result) {
-        //debugger;
+      function (response) { // errorCallback
+debugger;
+        model.messageText = response.data;
+        model.showMessageText = true;
       });
-
     }, // loadData
 
     findFunc: findFunc,

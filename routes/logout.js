@@ -1,7 +1,13 @@
 
-exports.get = function(req, res) {
-  req.session.user = null;
+exports.post = function(req, res, next) {
 
-  //res.render('guest-buttons');
-  res.send({});
+  if (req.session.user) {
+    req.session.user = null;
+    req.session.queryText = null;
+    req.session.queryType = null;
+
+    res.send({});
+  } else {
+    //error 403
+  }
 }

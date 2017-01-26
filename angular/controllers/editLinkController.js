@@ -8,8 +8,7 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
   $scope.errorText = '';
   $scope.showErrorText = false;
 
-  $scope.newTag = null;
-
+  //$scope.newTag = null;
 
   $scope.close = function () {
     $scope.linkManagerModel.deactivated = false;
@@ -20,51 +19,48 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
 
     if (url) {
 
-      /*var validUrl = $scope.linkManagerModel.checkValidUrl($scope.linkManagerModel.newLink.url);
+      if ($scope.linkManagerModel.checkValidUrl($scope.linkManagerModel.newLink.url)) {
+        $http({
+          method: 'POST',
+          url: '/newlink',
+          data: {url: url}
+        }).then(function successCallback(response) {
 
-      if (!validUrl) {
+          $scope.linkManagerModel.newLink.id = response.data.id;
+          $scope.linkManagerModel.newLink.shortUrl = "te.st/2" + response.data.shortUrlCode.toString(36);
+          $scope.linkManagerModel.newLink.counter = response.data.counter;
+
+          $scope.linkManagerModel.newLink.username = $scope.linkManagerModel.user.username;
+
+          if (response.data.description) {
+            $scope.linkManagerModel.newLink.description = response.data.description;
+          } else {
+            $scope.linkManagerModel.newLink.description = "";
+          }
+
+          if (response.data.tags) {
+            $scope.linkManagerModel.newLink.tags = response.data.tags;
+            $scope.linkManagerModel.showTagsList = response.data.tags.map(function () {
+              return 1;
+            });
+          } else {
+            $scope.linkManagerModel.newLink.tags = [];
+            $scope.linkManagerModel.showTagsList = [];
+          }
+
+          $scope.linkManagerModel.addToLinksList($scope.linkManagerModel.newLink);
+
+          $scope.linkManagerModel.createMode = false;
+          $scope.linkManagerModel.user.totalClicks += response.data.counter;
+
+        }, function errorCallback(response) {
+    /*$scope.errorText = response.data;
+          $scope.showErrorText = true;*/
+        });
+      } else {
         $scope.errorText = 'Enter a valid URL!';
         $scope.showErrorText = false;
-      }
-*/
-
-      $http({
-        method: 'POST',
-        url: '/newlink',
-        data: {url: url}
-      }).then(function successCallback(response) {
-
-        $scope.linkManagerModel.newLink.id = response.data.id;
-        $scope.linkManagerModel.newLink.shortUrl = "te.st/2" + response.data.shortUrlCode.toString(36);
-        $scope.linkManagerModel.newLink.counter = response.data.counter;
-
-        $scope.linkManagerModel.newLink.username = $scope.linkManagerModel.user.username;
-
-        if (response.data.description) {
-          $scope.linkManagerModel.newLink.description = response.data.description;
-        } else {
-          $scope.linkManagerModel.newLink.description = "";
-        }
-
-        if (response.data.tags) {
-          $scope.linkManagerModel.newLink.tags = response.data.tags;
-          $scope.linkManagerModel.showTagsList = response.data.tags.map(function () {
-            return 1;
-          });
-        } else {
-          $scope.linkManagerModel.newLink.tags = [];
-          $scope.linkManagerModel.showTagsList = [];
-        }
-
-        $scope.linkManagerModel.addToLinksList($scope.linkManagerModel.newLink);
-
-        $scope.linkManagerModel.createMode = false;
-        $scope.linkManagerModel.user.totalClicks += response.data.counter;
-
-      }, function errorCallback(response) {
-  /*$scope.errorText = response.data;
-        $scope.showErrorText = true;*/
-      });
+      }  
     }
   } // createLink
 
