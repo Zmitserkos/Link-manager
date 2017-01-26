@@ -8,8 +8,6 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
   $scope.errorText = '';
   $scope.showErrorText = false;
 
-  $scope.showTagsList = [];
-
   $scope.newTag = null;
 
 
@@ -18,9 +16,9 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
   }
 
   $scope.createLink = function () {
+    var url = $scope.linkManagerModel.newLink.url;
 
-    if ($scope.linkManagerModel.newLink.url) {
-      var url = $scope.linkManagerModel.newLink.url;
+    if (url) {
 
       /*var validUrl = $scope.linkManagerModel.checkValidUrl($scope.linkManagerModel.newLink.url);
 
@@ -40,6 +38,8 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
         $scope.linkManagerModel.newLink.shortUrl = "te.st/2" + response.data.shortUrlCode.toString(36);
         $scope.linkManagerModel.newLink.counter = response.data.counter;
 
+        $scope.linkManagerModel.newLink.username = $scope.linkManagerModel.user.username;
+
         if (response.data.description) {
           $scope.linkManagerModel.newLink.description = response.data.description;
         } else {
@@ -48,12 +48,12 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
 
         if (response.data.tags) {
           $scope.linkManagerModel.newLink.tags = response.data.tags;
-          $scope.showTagsList = response.data.tags.map(function () {
+          $scope.linkManagerModel.showTagsList = response.data.tags.map(function () {
             return 1;
           });
         } else {
           $scope.linkManagerModel.newLink.tags = [];
-          $scope.showTagsList = [];
+          $scope.linkManagerModel.showTagsList = [];
         }
 
         $scope.linkManagerModel.addToLinksList($scope.linkManagerModel.newLink);
@@ -62,7 +62,6 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
         $scope.linkManagerModel.user.totalLinks++;
         $scope.linkManagerModel.user.totalClicks += response.data.counter;
 
-        $scope.linkManagerModel.currAuthor = $scope.linkManagerModel.user.username;
       }, function errorCallback(response) {
   /*$scope.errorText = response.data;
         $scope.showErrorText = true;*/
@@ -71,11 +70,11 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
   } // createLink
 
   $scope.saveLink = function () {
-    debugger;
+
     var objectToSend = {id: $scope.linkManagerModel.currLink.id};
 
     var newTagList = $scope.linkManagerModel.newLink.tags.filter(function(item, index) {
-      return $scope.showTagsList[index] > 0;
+      return $scope.linkManagerModel.showTagsList[index] > 0;
     });
 
     if ($scope.linkManagerModel.currLink.description !== $scope.linkManagerModel.newLink.description) {
@@ -86,7 +85,7 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
     // possible two arrays comparison
     $scope.linkManagerModel.currLink.tags = [].concat(newTagList);
 
-    objectToSend.tags = $scope.linkManagerModel.currLink.tags;
+    objectToSend.tags = newTagList;
 
     $http({
       method: 'POST',
@@ -104,15 +103,16 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
   } // saveLink
 
   $scope.delTag = function (index) {
-    $scope.showTagsList[index] = 0;
+    $scope.linkManagerModel.showTagsList[index] = 0;
   } // delTag
 
   $scope.addTag = function () {
+    debugger;
     if ($scope.newTag) {
       // tag in the list must be unique
       if($scope.linkManagerModel.findFunc($scope.linkManagerModel.newLink.tags, $scope.newTag) < 0) {
         $scope.linkManagerModel.newLink.tags.push($scope.newTag);
-        $scope.showTagsList.push(1);
+        $scope.linkManagerModel.showTagsList.push(1);
       }
 
       $scope.newTag = null;

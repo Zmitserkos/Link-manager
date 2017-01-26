@@ -196,6 +196,21 @@ a {
    margin: 0 0 44px 0;
  }
 
+ .main-container-button {
+   color: white;
+   background: rgba(255, 140, 10, 1);
+   border: 1px solid rgba(120, 120, 120, 1);
+   border-radius: 6px;
+ }
+
+ .main-container-tags {
+   margin: 5px;
+   color: white;
+   background: orange;
+   border-radius: 6px;
+   padding: 3px;
+ }
+
 /*screen-xs*/
 @media (max-width: 768px) {
   #main-logo {font-size: 34px;}

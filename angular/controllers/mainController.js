@@ -35,7 +35,20 @@ mainApp.controller('mainController',
 
     $scope.linkManagerModel.createMode = false;
 
-                     $scope.linkManagerModel.newLink = $scope.linkManagerModel.currLink;
+    $scope.linkManagerModel.newLink = {};
+
+    $scope.linkManagerModel.newLink.shortUrl = $scope.linkManagerModel.currLink.shortUrl;
+    $scope.linkManagerModel.newLink.url = $scope.linkManagerModel.currLink.url;
+    $scope.linkManagerModel.newLink.description = $scope.linkManagerModel.currLink.description;
+    $scope.linkManagerModel.newLink.tags = [];
+    $scope.linkManagerModel.showTagsList = [];
+
+    var tagsNumber = $scope.linkManagerModel.currLink.tags.length;
+    for (var i = 0; i < tagsNumber; i++) {
+      $scope.linkManagerModel.newLink.tags[i] = $scope.linkManagerModel.currLink.tags[i];
+      $scope.linkManagerModel.showTagsList[i] = 1;
+    }
+
   }
 
   $scope.redirect = function () {
@@ -66,7 +79,7 @@ debugger;
   } // searchLink
 
   $scope.linkActivate = function (index) {
-    debugger;
+
     $scope.linkManagerModel.currLinkIndex = index;
     $scope.linkManagerModel.currLink = $scope.linkManagerModel.linksList[index];
   } // linkActivate

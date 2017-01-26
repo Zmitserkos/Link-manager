@@ -24,7 +24,7 @@
             <div class="tags-container-modal">
 
               <p class="modal-input-title tag-title-modal">TAGS</p>
-              <div class="modal-tag" ng-repeat="tag in linkManagerModel.newLink.tags" ng-show="showTagsList[$index]">
+              <div class="modal-tag" ng-repeat="tag in linkManagerModel.newLink.tags" ng-show="linkManagerModel.showTagsList[$index]">
                 <span>{{tag}}</span>
                 <button class="modal-tag-del-btn" type="button" ng-click="delTag($index)">×</button>
               </div>

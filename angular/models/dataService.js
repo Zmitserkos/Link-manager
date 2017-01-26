@@ -24,7 +24,6 @@ mainApp.factory('dataService', function($http) {
     newLink: null,
     currLink: null,
     currLinkIndex: 0,
-    currAuthor: null,
 
     queryText: null,
     queryType: "URL",
@@ -32,6 +31,8 @@ mainApp.factory('dataService', function($http) {
 
     searchMode: null,
     createMode: null,
+
+    showTagsList: [],
 
     user: {username: "Guest", totalLinks: 0, totalClicks: 0},
 
@@ -52,7 +53,12 @@ mainApp.factory('dataService', function($http) {
       model.currLink = {};
 
       for (var key in linkObj) {
-        model.currLink[key] = linkObj[key];
+        if (key!=="tags") {
+          model.currLink[key] = linkObj[key];
+        } else { // key==="tags"
+
+          model.currLink[key] = [].concat(linkObj[key]);
+        }
       }
 
       model.linksList.unshift(model.currLink);
@@ -77,6 +83,8 @@ mainApp.factory('dataService', function($http) {
           model.linksList = result.data.linksList;
 
           for (var i = 0; i < linksCount; i++) {
+            debugger;
+model.linksList[i].id = model.linksList[i]._id;
             model.linksList[i].username = model.user.username;
             model.linksList[i].shortUrl = "te.st/2" + model.linksList[i].shortUrlCode.toString(36);
 
@@ -84,8 +92,6 @@ mainApp.factory('dataService', function($http) {
           }
 
           model.setCurrLink(0);
-
-          model.currAuthor = model.user.username;
         }
       },
       function (result) {
@@ -93,24 +99,6 @@ mainApp.factory('dataService', function($http) {
       });
 
     }, // loadData
-
-    getUser: function () {
-      var model = this;
-
-      $http({
-        method: 'GET',
-        url: '/user', //user
-      }).then(function (result) {
-        //debugger;
-        if (result) {
-          model.user = result.data;
-        }
-      },
-      function (result) {
-        //debugger;
-
-      });
-    }, // getUser
 
     findFunc: findFunc,
 

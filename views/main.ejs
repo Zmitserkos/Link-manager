@@ -68,6 +68,8 @@
           <div class="visible-xs">
             <p class="main-info-text">
               Short URL: <b class="main-info-data">{{linkManagerModel.currLink.shortUrl}}</b>
+              <button type="button" class="main-container-button" data-toggle="modal"
+                      data-target="#editLinkModal" ng-click="editLink()">Edit</button>
             </p>
             <p class="main-info-text">
               Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>
@@ -77,7 +79,7 @@
             </p>
             <p class="main-info-text">
               Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
-                      <b class="main-info-data"><a style="margin: 0 6px; color: orange;">{{tag}}</a></b>
+                      <b class="main-info-data"><a class="main-container-tags">{{tag}}</a></b>
                     </span>
             </p>
             <p class="main-info-text">
@@ -104,7 +106,8 @@
         <div id="main-container" class="hidden-xs col-sm-8 col-md-8 col-lg-8" ng-show="linkManagerModel.linksList.length">
           <p class="main-container-text">
             Short URL: <b class="main-info-data" ng-click="redirect()">{{linkManagerModel.currLink.shortUrl}}</b>
-            <button type="button" style="color: white; background: rgba(255, 140, 10, 1); border: 1px solid rgba(120, 120, 120, 1); border-radius: 6px;">Edit</button>
+            <button type="button" class="main-container-button" data-toggle="modal"
+                    data-target="#editLinkModal" ng-click="editLink()">Edit</button>
           </p>
           <p class="main-container-text">
             Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>
@@ -114,8 +117,7 @@
           </p>
           <p class="main-container-text">
             Tags: <span ng-repeat="tag in linkManagerModel.currLink.tags">
-                    <b class="main-info-data"
-                       style="margin: 5px; color: white; background: orange; border-radius: 6px; padding: 3px;">{{tag}}</b>
+                    <b class="main-info-data main-container-tags">{{tag}}</b>
                   </span>
           </p>
           <p class="main-container-text">
