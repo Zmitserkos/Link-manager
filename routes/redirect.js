@@ -9,7 +9,13 @@ exports.use = function (req, res, next) {
       if (err) next(err);
 
       if (link) {
-        return res.redirect(link.url);
+
+        Link.findByIdAndUpdate(link._id, {counter: link.counter + 1}, function(err, result) {
+          if (err) return next(err);
+
+          return res.redirect(link.url);
+          //next(err, result);
+        });
       } else {
         next();
       }
