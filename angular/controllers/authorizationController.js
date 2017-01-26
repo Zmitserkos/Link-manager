@@ -5,10 +5,11 @@ mainApp.controller('authorizationController', function($scope, dataService) {
   // set the model
   $scope.linkManagerModel = dataService;
 
-  $scope.createShortUrl = function () {
+  $scope.linkManagerModel.hidePopup = true;
 
-    $scope.linkManagerModel.createShortUrlMode = true;
+  $scope.close = function () {
+    $scope.linkManagerModel.hidePopup = true;
+    $scope.linkManagerModel.deactivated = false;
   }
-
 
 });

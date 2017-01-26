@@ -1,7 +1,8 @@
 
 var mainApp = angular.module('linkManagerApp');
 
-mainApp.controller('mainController', function($scope, dataService, $http, $window) {
+mainApp.controller('mainController',
+                   function($scope, $http, $window, $compile, dataService) {
   // set the model
   $scope.linkManagerModel = dataService;
 
@@ -15,7 +16,7 @@ mainApp.controller('mainController', function($scope, dataService, $http, $windo
 
     $http({method:'POST', url:'/333' , params: {}}).
       success(function (result) {  //'id': 1     + shortUrl
-debugger;
+//debugger;
         console.log(result);
     });
   } // searchLink
@@ -25,13 +26,38 @@ debugger;
 
     $scope.linkManagerModel.deactivated = true;
 
-    if (label === 1 || label === 2) {
-      $scope.linkManagerModel.authorize = true;
+    var popupElem = document.getElementById("popup");
 
-      if (label === 1) {
-        $scope.linkManagerModel.registration = true;
-      }
+    var angChildElem = angular.element(popupElem.firstElementChild);
+
+    if (label === 1 &&
+        angChildElem.hasClass("register-form")) { // "Register"
+      $scope.linkManagerModel.hidePopup = false;
+      return;
+    } else if (label === 2 &&
+               angChildElem.hasClass("login-form")) { // "Log in"
+      $scope.linkManagerModel.hidePopup = false;
+      return;
     }
+
+    // remove all child elements of popupElem
+    angular.element(popupElem).empty();
+
+    // if (!authPopup.children.length) {
+    $http({ method:'GET', url:'/popup' , params: {'id': label} }).success(function (result) {  
+
+      var authPopup = document.getElementById("popup");
+
+      var popupContent = angular.element(result);
+
+      var compiledElem = $compile(popupContent)($scope);
+      if (compiledElem) { // compiledElem
+        angular.element(authPopup).append(compiledElem);
+      }
+
+      $scope.linkManagerModel.hidePopup = false;
+    });
+
   } // authorize
 
   // button "Create short URL"
@@ -41,6 +67,5 @@ debugger;
     $scope.linkManagerModel.editLinkMode = true;
     $scope.linkManagerModel.createLink = true;
   } // createShortUrl
-
 
 });

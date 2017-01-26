@@ -26,26 +26,16 @@ app.use(express.static(path.join(__dirname, 'angular')));
 app.use(app.router);
 
 app.use(function (req, res, next) {
+  console.log("==4==== " + " - "+ JSON.stringify(req, null, 2));
   console.log('URL///===: ' + req.url);
-
-/*  var options = {method: 'HEAD', host: 'stackoverflow.com', port: 80, path: '/'};
-  var req = http.request(options, function(res) {
-      //console.log('*** = ' + JSON.stringify(res.headers));
-      }
-  );
-  req.end();
-*/
-
-  res.send('<div>123!</div>');
 
   next();
 })
 
-//console.log(routes.main);
-
 app.get('/', routes.index);
 app.get('/links', routes.main);
-app.get('/7', routes.new);
+
+app.get('/popup', routes.popup);
 //app.get('/users', users.list);
 
 /// catch 404 and forwarding to error handler

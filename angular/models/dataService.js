@@ -6,10 +6,10 @@ mainApp.factory('dataService', function($http) {
   // create the model
   var mainModel = {
 
-    authorize: false,
+    deactivated: false,
+    hidePopup: true,
     editLinkMode: false,
     createLink: false,
-    deactivated: false,
 
     currUrl: null,
     currQuery: null,
