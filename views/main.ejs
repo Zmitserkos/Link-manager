@@ -1,0 +1,83 @@
+<html  id="ng-app" lang="en-US" ng-app="linkManagerApp">
+<head>
+  <title>Test task</title>
+
+  <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="css/bootstrap-grid-3.3.1.min.css"/>
+  <!--<link rel="stylesheet" href="../public/css/bootstrap.min.css"/>-->
+  <link rel="stylesheet" href="css/main-style.css"/>
+
+</head>
+<body>
+
+  <div id="main" ng-controller="mainController" ng-class="linkManagerModel.deactivated ? 'disactivated' : ''">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 col-md-2 col-lg-1">
+          <div id="logo">Te.sT</div>
+
+          <div class="visible-xs">
+            <span class="auth-text"><b>{{linkManagerModel.user.username}}</b></span>
+          </div>
+
+          <div class="visible-sm">
+            <span class="auth-text">Signed in as <b>{{linkManagerModel.user.username}}</b></span>
+          </div>
+        </div>
+
+        <form class="col-xs-12 col-md-4 col-lg-5" ng-submit="searchLink(linkManagerModel.currUrl)">
+          <div class="input-block" style="background: rgba(55, 185, 55, 1);" >
+            <input class='container-input' type="text" placeholder="SEARCH BY LINK"
+                   ng-model="linkManagerModel.currUrl" >
+            <button class='search-btn'>S</button>
+          </div>
+        </form>
+
+        <div class="col-xs-hide col-md-3 col-lg-4">
+          <span class="auth-text hidden-xs hidden-sm">Signed in as <b>{{linkManagerModel.user.username}}</b></span>
+        </div>
+
+        <div class="col-xs-12 col-md-3 col-lg-2 myColoredCol" >
+          <div class="top-button-container">
+
+            <%-body -%>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="search-query">Searching for {{linkManagerModel.queryType}}: <b>{{linkManagerModel.currQuery}}</b></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
+
+        </div>
+      </div>
+
+      <%-blocks.foo2 %>
+
+    </div>
+
+  </div>
+
+
+  <script src="js/angular.min.js"></script>
+  <script src="js/angular-animate.min.js"></script>
+
+  <script src="modules/mainApp.js"></script>
+
+  <script src="models/dataService.js"></script>
+
+  <script src="controllers/mainController.js"></script>
+  <script src="controllers/authorizationController.js"></script>
+  <script src="controllers/editLinkController.js"></script>
+
+</body>
+</html>

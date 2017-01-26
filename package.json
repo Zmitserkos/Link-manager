@@ -1,0 +1,18 @@
+{
+  "name": "link-manager-application",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "NODE_PATH=. node ./bin/www"
+  },
+  "dependencies": {
+    "express": "~3.4.8",
+    "cookie-parser": "~1.0.1",
+    "body-parser": "~1.0.0",
+    "ejs": "*",
+    "ejs-locals": "*",
+    "async": "*",
+    "nconf": "*",
+    "mongoose": "*"
+  }
+}
