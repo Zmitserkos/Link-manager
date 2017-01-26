@@ -7,7 +7,7 @@ mainApp.factory('dataService', function($http) {
   var mainModel = {
 
     deactivated: false,
-    hidePopup: true,
+    //hidePopup: true,
     editLinkMode: false,
     createLink: false,
 

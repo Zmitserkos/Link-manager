@@ -1,9 +1,9 @@
 
 var User = require('models/user').User;
 
-exports.get = function(req, res) {
+/*exports.get = function(req, res) {
   res.render('authorization/login');
-}
+}*/
 
 exports.post = function(req, res, next) {
   var username = req.body.username;

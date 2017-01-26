@@ -4,10 +4,10 @@ module.exports = function(app) {
   // Home page
   app.get('/', require('./homepage').get);
 
-  app.get('/popup/register', require('./register').get);
+  //app.get('/popup/register', require('./register').get);
   app.post('/register', require('./register').post);
 
-  app.get('/popup/login', require('./login').get);
+  //app.get('/popup/login', require('./login').get);
   app.post('/login', require('./login').post);
 
   app.get('/logout', require('./logout').get);

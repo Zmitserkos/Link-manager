@@ -12,7 +12,6 @@ mainApp.controller('authorizationController', function($scope, $http, $location,
   $scope.user = {username: '', password: '', passwordConf : ''}
 
   $scope.close = function () {
-    $scope.linkManagerModel.hidePopup = true;
     $scope.linkManagerModel.deactivated = false;
   }
 
@@ -40,6 +39,7 @@ mainApp.controller('authorizationController', function($scope, $http, $location,
   }
 
   $scope.login = function () {
+
     $http({
       method: 'POST',
       url: '/login',

@@ -21,65 +21,17 @@ mainApp.controller('mainController',
     });
   } // searchLink
 
-  $scope.registerForm = function () {
+  $scope.deactivate = function () {
     $scope.linkManagerModel.deactivated = true;
+  }
 
-    var popupElem = document.getElementById("popup");
-    var angChildElem = angular.element(popupElem.firstElementChild);
-
-    if (angChildElem.hasClass("register-form")) {
-      $scope.linkManagerModel.hidePopup = false;
-      return;
-    }
-
-    // remove all child elements of popupElem
-    angular.element(popupElem).empty();
-
-    $http({method:'GET', url:'/popup/register'})
-    .success(function (result) {
-
-      var authPopup = document.getElementById("popup");
-
-      var popupContent = angular.element(result);
-
-      var compiledElem = $compile(popupContent)($scope);
-      if (compiledElem) { // compiledElem
-        angular.element(authPopup).append(compiledElem);
-      }
-
-      $scope.linkManagerModel.hidePopup = false;
-    });
+  /*$scope.registerForm = function () {
+    $scope.linkManagerModel.deactivated = true;
   }
 
   $scope.loginForm = function () {
     $scope.linkManagerModel.deactivated = true;
-
-    var popupElem = document.getElementById("popup");
-    var angChildElem = angular.element(popupElem.firstElementChild);
-
-    if (angChildElem.hasClass("login-form")) {
-      $scope.linkManagerModel.hidePopup = false;
-      return;
-    }
-
-    // remove all child elements of popupElem
-    angular.element(popupElem).empty();
-
-    $http({method:'GET', url:'/popup/login'})
-    .success(function (result) {
-
-      var authPopup = document.getElementById("popup");
-
-      var popupContent = angular.element(result);
-
-      var compiledElem = $compile(popupContent)($scope);
-      if (compiledElem) { // compiledElem
-        angular.element(authPopup).append(compiledElem);
-      }
-
-      $scope.linkManagerModel.hidePopup = false;
-    });
-  }
+  }*/
 
   $scope.logOut = function () {
     $http({method:'GET', url:'/logout'})
