@@ -16,7 +16,7 @@ var app = require('../app');
 var chai = require('chai');
 
 var assert = chai.assert;
-var supertest = require('supertest');
+//var supertest = require('supertest');
 var session = require('supertest-session');
 var _ = require('underscore');
 var linkId, shortUrlCode, userId;
@@ -29,7 +29,6 @@ describe('/register', function () {
 		before(function () {
     	User.remove({username: 'new-user'}, function (err, user) {
         if (err) return next(err);
-				console.log('*');
 		  });
     });
 

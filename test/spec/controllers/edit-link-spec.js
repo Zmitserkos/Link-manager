@@ -1,6 +1,6 @@
 
 var scope,
-    editLinkController,
+    controller,
     $controller,
     tag = 'javascript',
     $httpBackend;
@@ -9,8 +9,9 @@ describe('editLinkController', function() {
   beforeEach(module('linkManagerApp'));
 
   describe('$scope.createLink', function() {
-    beforeEach(inject(function (_$httpBackend_) {
+    beforeEach(inject(function (_$httpBackend_, _$controller_) {
       $httpBackend = _$httpBackend_;
+      $controller = _$controller_;
     }));
 
     afterEach(function() {
@@ -18,13 +19,9 @@ describe('editLinkController', function() {
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-    beforeEach(inject(function(_$controller_){
-      $controller = _$controller_;
-    }));
-
     beforeEach(function () {
       scope = {};
-      editLinkController = $controller('editLinkController', {$scope: scope});
+      controller = $controller('editLinkController', {$scope: scope});
     });
 
     it('Should add a new tag to the list of tags', function() {
@@ -82,7 +79,7 @@ describe('editLinkController', function() {
 
     beforeEach(function () {
       scope = {newTag: tag};
-      editLinkController = $controller('editLinkController', {$scope: scope});
+      controller = $controller('editLinkController', {$scope: scope});
     });
 
     it('Should add a new tag to the list of tags', function() {

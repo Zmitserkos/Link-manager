@@ -1,6 +1,6 @@
 
 var scope,
-    authorizationController,
+    controller,
     $controller,
     $httpBackend,
     $window;
@@ -18,7 +18,7 @@ describe('authorizationController', function() {
         errorText: "Error!!!",
         showErrorText: true,
       };
-      authorizationController = $controller('authorizationController', {$scope: scope});
+      controller = $controller('authorizationController', {$scope: scope});
     });
 
     it('Should set the proper values of the parameters before closing the modal window', function () {
@@ -47,7 +47,7 @@ describe('authorizationController', function() {
     }));
 
     beforeEach(function () {
-      authorizationController = $controller('authorizationController', {$scope: scope});
+      controller = $controller('authorizationController', {$scope: scope});
     });
 
     afterEach(function() {
@@ -103,7 +103,7 @@ describe('authorizationController', function() {
     }));
 
     beforeEach(function () {
-      authorizationController = $controller('authorizationController', {$scope: scope});
+      controller = $controller('authorizationController', {$scope: scope});
     });
 
     afterEach(function() {

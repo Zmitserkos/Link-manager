@@ -5,7 +5,7 @@ var httpError = require('error').httpError;
 
 exports.post = function(req, res, next) {
 
-  var username = req.body.username;
+  var username = req.body.username; 
   var password = req.body.password;
 
   if (req.session.user) return next(new httpError(403, "Forbidden for authorized user!"));

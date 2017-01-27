@@ -1,6 +1,6 @@
 
 var scope,
-    mainController,
+    controller,
     $controller,
     $httpBackend,
     $window,
@@ -19,7 +19,7 @@ describe('mainController', function() {
 
     beforeEach(function () {
       scope = {};
-      mainController = $controller('mainController', {$scope: scope});
+      controller = $controller('mainController', {$scope: scope});
     });
 
     it('Schould copy the attributes of current link to edit', function () {
@@ -70,7 +70,7 @@ describe('mainController', function() {
     }));
 
     beforeEach(function () {
-      mainController = $controller('mainController', {$scope: scope});
+      controller = $controller('mainController', {$scope: scope});
     });
 
     afterEach(function() {
@@ -133,10 +133,6 @@ describe('mainController', function() {
       assert.equal(scope.linkManagerModel.messageText, "Tag is empty!");
       assert(scope.linkManagerModel.showMessageText);
     });
-
-  });
-
-  describe('$scope.searchByUrl', function() {
 
   });
 });
