@@ -7,8 +7,7 @@ var Counter = require('models/counter').Counter;
 var linkSchema = new Schema({
   shortUrlCode: { // decimal number that will be converted to base-36 number
     type: Number,
-    unique: true/*,
-    required: true*/
+    unique: true
   },
   url: {
     type: String,
@@ -39,7 +38,7 @@ var linkSchema = new Schema({
 linkSchema.pre('save', function(next) {
   var currLink = this;
 
-  Counter.findByIdAndUpdate("linkCount", {$inc: {count: 1}}, function(err, counter)   {
+  Counter.findByIdAndUpdate("linkCount", {$inc: {count: 1}}, function(err, counter) {
     if (err) return next(err);
 
     currLink.shortUrlCode = counter.count;
@@ -49,12 +48,14 @@ linkSchema.pre('save', function(next) {
 
 var link = mongoose.model('Link', linkSchema);
 
-link.on('index', function(err) {
+if (process.env.NODE_ENV === 'development') {
+  link.on('index', function(err) {
     if (err) {
-        console.log('User index error: %s', err);
+      console.log('Link index error: ', err);
     } else {
-        console.log('User indexing complete ');
+      console.log('Link indexing complete');
     }
-});
+  });
+}
 
 exports.Link = link;

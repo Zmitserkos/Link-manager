@@ -40,42 +40,16 @@ userSchema.methods.checkPassword = function(password) {
     return this.encryptPassword(password) === this.hashedPassword;
 }
 
-/*schema.statics.register = function(username, password, callback) {
-  var User = this;
-
-  async.waterfall([
-    function(callback) {
-      User.findOne({username: username}, callback);
-    },
-    function(user, callback) {
-      if (user) {
-
-      } else
-      {
-
-      }
-    }
-  ], function(err, user) {
-    if (err) return next(err);
-    req.session.user = user._id;
-    res.send({});
-  });
-}
-
-schema.statics.login = function(username, password, callback) {
-
-}*/
-
-//schema.index({username: 1}, {unique: true});
-
 var user = mongoose.model('User', userSchema);
 
-user.on('index', function(err) {
+if (process.env.NODE_ENV === 'development') {
+  user.on('index', function(err) {
     if (err) {
-        console.log('User index error: %s', err);
+      console.log('User index error: ', err);
     } else {
-        console.log('User indexing complete ');
+      console.log('User indexing complete');
     }
-});
+  });
+}
 
 exports.User = user;

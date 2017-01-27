@@ -1,7 +1,6 @@
 
-//process.env.NODE_ENV = 'test';
-process.env.NODE_ENV = 'development';
-var config = require('config');
+process.env.NODE_ENV = 'test';
+//var config = require('config');
 
 var mongoose = require("mongoose");
 
@@ -286,7 +285,7 @@ describe('/load', function () {
  		  .expect(200)
  		  .end(function (err, res) {
  		    if (err) return done(err);
-				console.log('u ='+res.body);
+
         userId = res.body.id;
 
 				testSession
