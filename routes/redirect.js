@@ -13,7 +13,7 @@ exports.use = function (req, res, next) {
       Link.findByIdAndUpdate(link._id, {counter: link.counter + 1}, function(err, result) {
         if (err) return next(err);
 
-        return res.redirect(link.url);
+        return res.redirect(link.url);    
       });
     });
 

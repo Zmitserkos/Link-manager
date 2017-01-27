@@ -2,11 +2,15 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var httpError = require('error').httpError;
+var ENV = process.env.NODE_ENV;
 
 var config = require('config');
 var log = require('lib/log')(module);
 var mongoose = require('lib/mongoose');
-mongoose.set('debug', true);
+
+if(ENV === 'development') {
+  mongoose.set('debug', true);
+}
 
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');

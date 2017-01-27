@@ -7,11 +7,13 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
 
   $scope.close = function () {
     $scope.linkManagerModel.deactivated = false;
+    $scope.showErrorText = false;
+    $scope.errorText = '';
   }
 
   $scope.createLink = function () {
     var url = $scope.linkManagerModel.newLink.url;
-
+    
     if (url) {
       if (!$scope.linkManagerModel.checkValidUrl($scope.linkManagerModel.newLink.url)) {
         $scope.errorText = 'Enter a valid URL!';
@@ -89,10 +91,7 @@ mainApp.controller('editLinkController', function($scope, $http, dataService) {
       url: '/link',
       data: objectToSend
     }).then(function (response) { // successCallback
-      if (response.data && response.data.message) {
-        $scope.errorText = response.data.message;
-        $scope.showErrorText = true;
-      }
+
     }, function (response) { // errorCallback
       if (response.data && response.data.message) {
         $scope.errorText = response.data.message;

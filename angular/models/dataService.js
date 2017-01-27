@@ -141,7 +141,7 @@ mainApp.factory('dataService', function($http) {
 
               if (model.user.id && !model.linksList[i].username) {
                 model.linksList[i].username = model.user.username;
-                model.user.totalClicks += model.linksList[i].counter;
+                model.user.totalClicks += model.linksList[i].counter;            
               }
             }
 
@@ -149,7 +149,8 @@ mainApp.factory('dataService', function($http) {
           }
         }
       },
-      function (response) { // errorCallback      
+      function (response) { // errorCallback
+
         if (response.data && response.data.message) {
           model.messageText = response.data.message;
           model.showMessageText = true;

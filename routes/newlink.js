@@ -29,7 +29,10 @@ exports.post = function(req, res, next) {
         objectToSend.tags = link.tags;
       }
 
-      send(objectToSend);
+      res.send(objectToSend);
+
+      req.session.queryText = null;
+      req.session.queryType = null;
     } else {
       User.findById(req.session.user, function (err, user) {
         if (err) return next(err);
@@ -46,8 +49,12 @@ exports.post = function(req, res, next) {
           if (err) return next(err);
 
           res.send({id: newLink._id,
-                    shortUrlCode: newLink.shortUrlCode,
-                    counter: newLink.counter});
+            shortUrlCode: newLink.shortUrlCode,
+            counter: newLink.counter
+          });
+
+          req.session.queryText = null;
+          req.session.queryType = null;
         });
       });
     }
