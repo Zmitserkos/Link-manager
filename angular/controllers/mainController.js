@@ -13,11 +13,6 @@ mainApp.controller('mainController', function($scope, $http, $window, dataServic
   $scope.logOut = function () {
     $http({method:'POST', url:'/logout'})
     .then(function (response) { // successCallback
-      if (response.data && response.data.message) {
-        $scope.linkManagerModel.messageText = response.data.message;
-        $scope.linkManagerModel.showMessageText = true;
-        return;
-      }
 
       $window.location = '/';
     }, function (response) { // errorCallback
@@ -128,5 +123,10 @@ mainApp.controller('mainController', function($scope, $http, $window, dataServic
     $scope.linkManagerModel.searchMode = false;
     $scope.linkManagerModel.loadData({loadProfile: true});
   } // loadProfile
+
+  $scope.showEdit = function () {
+    
+    return true;// $scope.linkManagerModel.currLink.username === $scope.linkManagerModel.user.username;
+  }
 
 });

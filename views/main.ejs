@@ -75,7 +75,8 @@
             <p class="main-info-text">
               Short URL: <b class="main-info-data">{{linkManagerModel.currLink.shortUrl}}</b>
               <button type="button" class="main-container-button" data-toggle="modal"
-                      data-target="#editLinkModal" ng-click="editLink()">Edit</button>
+                      data-target="#editLinkModal" ng-click="editLink()"
+                      ng-show="showEdit()">Edit</button>
             </p>
             <p class="main-info-text">
               Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>
@@ -103,7 +104,7 @@
 
       <div id="main-message-block" class="row" ng-show="linkManagerModel.showMessageText">
         <div class="col-xs-12">
-          <p>{{linkManagerModel.messageText}}</p>           
+          <p>{{linkManagerModel.messageText}}</p>
         </div>
       </div>
 
@@ -119,7 +120,8 @@
           <p class="main-container-text">
             Short URL: <b class="main-info-data">{{linkManagerModel.currLink.shortUrl}}</b>
             <button type="button" class="main-container-button" data-toggle="modal"
-                    data-target="#editLinkModal" ng-click="editLink()">Edit</button>
+                    data-target="#editLinkModal" ng-click="editLink()"
+                    ng-show="showEdit()">Edit</button>
           </p>
           <p class="main-container-text">
             Long URL: <b class="main-info-data">{{linkManagerModel.currLink.url}}</b>

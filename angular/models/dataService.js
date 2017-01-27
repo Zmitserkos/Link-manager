@@ -149,7 +149,8 @@ mainApp.factory('dataService', function($http) {
           }
         }
       },
-      function (response) { // errorCallback      
+      function (response) { // errorCallback
+
         if (response.data && response.data.message) {
           model.messageText = response.data.message;
           model.showMessageText = true;
