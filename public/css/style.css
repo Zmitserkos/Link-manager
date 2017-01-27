@@ -15,13 +15,12 @@ a {
 }
 
 .disactivated {
-  opacity: 0.5;
+  opacity: 0.1;
 }
 
-#logo {
+#home-logo {
   float: left;
   padding: 0 10px;
-
   border: 0;
   border-radius: 8px;
   font-family: azertyperegular, arial;
@@ -29,59 +28,52 @@ a {
   background: rgba(255, 15, 45, 1);
 }
 
-.top-button-container {
+.top-btn-container {
   width: 100%;
-  min-width: 250px;
-  min-height: 52px;
-  margin: 24px auto;
-
   float: right;
-
-  /*background: blue;*/
 }
 
-.top-button {
-  width: 44%;
-  height: 50px;
-  float: left;
+.auth-text {
+  font-size: 18px;
+  float: right;
+  font-family: arial;
+}
 
+.top-btn {
+  float: right;
   margin: 0 3%;
-
   border-radius: 6px;
   font-size: 20px;
   font-family: arial;
 }
 
-.login {
+
+.login, .logoff, .modal-tag, .modal-tag-del-btn, .modal-header .close {
   background: grey;
   color: white;
 }
 
-.register {
+.register, .new-link, .modal-tag-btn {
   background: rgba(255, 185, 55, 1);
   color: rgba(60, 60, 60, 1);
 }
 
 #tagline {
-  padding: 40px 0;
   text-align: center;
   font-family: arial;
-  font-size: 64px;
-  line-height: 1.2;
   background: rgba(215, 215, 215, 1);
 }
 
 .input-block {
-  margin-top: 5%;
+  padding: 16px 0;
+  overflow: auto;
 }
 
-
- .container-input {
+.search-input {
   width: 76%;
   height: 40px;
   padding-left: 10px;
   float: left;
-
   border-radius: 6px;
   border: 1px solid rgba(120, 120, 120, 1);
 }
@@ -91,37 +83,246 @@ a {
   height: 40px;
   float: left;
   min-width: 64px;
-
+  overflow: hidden;
   color: white;
   background: rgba(255, 140, 10, 1);
   border-radius: 6px;
   border: 1px solid rgba(120, 120, 120, 1);
 }
 
+.modal-warning-text {
+  color: red;
+}
+
+/*******************************************/
+
+#main-logo {
+  float: left;
+  padding: 0 10px;
+  margin-left: 10px;
+  border: 0;
+  border-radius: 8px;
+  font-family: azertyperegular, arial;
+  color: white;
+  background: rgba(255, 15, 45, 1);
+}
+
+.main-header {
+  background: rgba(215, 215, 215, 1);
+}
+
+.main-top-btn-container {
+  width: 100%;
+  min-width: 250px;
+  /*min-height: 52px;*/
+  margin: 10px auto 0 auto;
+  float: left;
+}
+
+.main-search-block {
+  float: right;
+}
+
+.main-search-btn {
+  /*width: 40px;*/
+  height: 40px;
+  float: right;
+  margin: 6px 0;
+  margin-right: 20px;
+  color: white;
+  background: rgba(255, 140, 10, 1);
+  border-radius: 6px;
+  border: 1px solid rgba(120, 120, 120, 1);
+}
+
+.main-search-input {
+  width: 300px;
+  height: 40px;
+  padding-left: 10px;
+  margin-top: 6px;
+  float: right;
+  border-radius: 6px;
+  border: 1px solid rgba(120, 120, 120, 1);
+}
+
+#main-message-block {
+  color: rgba(220, 120, 140, 1);
+  font-size: 16px;
+  padding: 10px 30px;
+}
+
+#main-info-block {
+  text-align: left;
+  font-family: arial;
+  background: grey;
+  font-size: 20px;
+  padding: 30px;
+  color: white;
+}
+
+.main-info-text {
+  margin: 2px 0;
+}
+
+.main-query-text {
+  color: rgba(255, 140, 10, 1);
+}
+
+.main-info-data {
+  color: rgba(60, 60, 60, 1);
+}
+
+#main-sidebar {
+  padding: 0;
+}
+
+.main-sidebar-link {
+  margin: 3px;
+  border-radius: 6px;
+  border: 1px solid rgba(120, 120, 120, 1);
+  font-size: 16px;
+  background: rgba(235, 235, 215, 1);
+}
+
+.main-link-focused {
+  background: rgba(255, 255, 245, 1);
+}
+
+#main-container {
+  padding: 36px;
+  font-family: arial;
+  font-size: 20px;
+}
+
+.main-container-text {
+  margin: 0 0 44px 0;
+}
+
+.main-container-button {
+  color: white;
+  background: rgba(255, 140, 10, 1);
+  border: 1px solid rgba(120, 120, 120, 1);
+  border-radius: 6px;
+}
+
+.main-container-tags {
+  margin: 5px;
+  color: white;
+  background: orange;
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.main-user-icon {
+  border-radius: 6px;
+  color: white;
+  background: rgba(170, 170, 170, 1);
+}
+
+.main-auth-text {
+  padding-top: 2px;
+  float: right;
+  font-family: arial;
+  font-size: 18px;
+}
+
+.main-additional-headed {background: rgba(170, 170, 170, 1);}
+
+.main-link {color: rgba(50, 80, 200, 1);}
+
+
+#error-block {
+  margin: 40px;
+}
+
+.error-text {
+  font-weight: normal;
+  color: rgba(220, 120, 140, 1);
+}
+
+.error-param {
+  color: rgba(50, 50, 50, 1);
+  display: inline;
+}
+
+
+
 /*screen-xs*/
 @media (max-width: 768px) {
-  /*.myColoredCol{background-color:blue;}*/
-  #logo {font-size: 48px;}
-  #tagline {font-size: 40px;
-            padding: 0;}
+  #main-logo {font-size: 38px;}
+  .main-sidebar-link {padding: 8px;}
+  #main-info-block {padding: 10px 0; }
+  /*.main-info-text {margin-right: 120px;}*/
+  #main-logo {margin: 2px;}
+  .main-search-form {margin: 0;}
+  .main-user-icon {width: 44px; height: 44px; padding: 12px;}
+  .main-top-btn-container {height: 58px;}
+  .main-auth-text {padding-top: 10px;}
 }
 /*screen-sm*/
 @media (min-width: 768px) and (max-width: 992px) {
-  /*.myColoredCol{background-color:green;}*/
-  #logo {font-size: 56px;}
-  #tagline {font-size: 48px;
-            padding: 10px 0;}
+  #main-logo {font-size: 48px;}
+  .main-sidebar-link {padding: 14px;}
+  .main-info-text {margin-right: 60px;}
+  .main-search-input {width: 180px;}
+  .main-search-btn {margin-right: 4px;}
+  .main-search-form {margin: 0;}
+  .main-user-icon {width: 44px; height: 44px; padding: 12px;}
+  .main-top-btn-container {height: 58px;}
+  .main-auth-text {line-height: 44px;}
 }
 /*screen-md*/
 @media (min-width: 992px) and (max-width: 1200px) {
-  /*.myColoredCol{background-color:yellow;}*/
-  #logo {font-size: 64px;}
-  #tagline {font-size: 56px;
-            padding: 25px 0;}
+  #main-logo {font-size: 50px;}
+  .main-sidebar-link {padding: 20px;}
+  .main-info-text {margin-right: 110px;}
+  .main-search-input {width: 200px;}
+  .main-search-btn {margin-right: 10px;}
+  .main-user-icon {width: 46px; height: 46px; padding: 13px;}
+  .main-top-btn-container {height: 60px;}
+  .main-auth-text {line-height: 46px;}
 }
 /*screen-lg corresponds with col-lg*/
 @media (min-width: 1200px) {
-  /*.myColoredCol{background-color:red;}*/
-  #logo {font-size: 72px;}
+  #main-logo {font-size: 52px;}
+  .main-sidebar-link {padding: 30px;}
+  .main-info-text {margin-right: 160px;}
+  .main-user-icon {width: 48px; height: 48px; padding: 14px;}
+  .main-top-btn-container {height: 62px;}
+  .main-auth-text {line-height: 48px;}
+}
 
+
+/*screen-xs*/
+@media (max-width: 768px) {
+  #home-logo {font-size: 48px;}
+  .top-btn-container {margin: 16px auto;}
+  .auth-text {padding-top: 22px;}
+  .top-btn {width: 48%; height: 44px; margin: 0 0 0 4%;}
+  .login, .logoff {margin-left: 0;}
+  #tagline {line-height: 1; font-size: 40px; padding: 20px 0;}
+}
+/*screen-sm*/
+@media (min-width: 768px) and (max-width: 992px) {
+  #home-logo {font-size: 56px;}
+  .top-btn-container {margin: 18px auto;}
+  .auth-text {padding-top: 12px;}
+  .top-btn {width: 100px; height: 46px; margin: 0 6px;}
+  #tagline {line-height: 2; font-size: 48px; padding: 10px 0;}
+}
+/*screen-md*/
+@media (min-width: 992px) and (max-width: 1200px) {
+  #home-logo {font-size: 64px;}
+  .top-btn-container {margin: 22px auto;}
+  .auth-text {padding-top: 13px;}
+  .top-btn {width: 110px; height: 48px; margin: 0 8px;}
+  #tagline {line-height: 1.6; font-size: 56px; padding: 25px 0;}
+}
+/*screen-lg corresponds with col-lg*/
+@media (min-width: 1200px) {
+  #home-logo {font-size: 68px;}
+  .top-btn-container {margin: 24px auto;}
+  .auth-text {padding-top: 14px;}
+  .top-btn {width: 110px; height: 50px; margin: 0 10px;}
+  #tagline {line-height: 1.2; font-size: 64px; padding: 40px 0;}
 }

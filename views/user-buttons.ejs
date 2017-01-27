@@ -1,8 +1,5 @@
-<% layout('main') -%>
 
-<button class="top-button register" ng-click="authorize(1)">Create link</button>
-<button class="top-button login" ng-click="authorize(2)">Log out</button>
+<button class="top-btn new-link" data-toggle="modal" data-target="#editLinkModal"
+        ng-click="newLink()">New link</button>
 
-<% block('foo2', '<div class="row"><div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">!!!!!!</div></div>') -%>
-
-
+<button class="top-btn logoff" ng-click="logOut()">Log out</button>

@@ -3,36 +3,178 @@ var mainApp = angular.module('linkManagerApp');
 
 mainApp.factory('dataService', function($http) {
 
+  // function for searching the element position in the array
+  if ([].indexOf) {
+    var findFunc = function(array, value) {
+      return array.indexOf(value);
+    }
+  } else {
+    var findFunc = function(array, value) {
+      for (var i = 0; i < array.length; i++) {
+        if (array[i] === value) return i;
+      }
+      return -1;
+    }
+  }
+
+  var guest = {username: "Guest", totalClicks: 0};
+
   // create the model
   var mainModel = {
 
-    authorize: false,
-    editLinkMode: false,
-    createLink: false,
-    deactivated: false,
+    deactivated: false, // parameter for changing opacity of backgroud elements while modal window occurs
 
-    currUrl: null,
-    currQuery: null,
-    queryType: null,
+    linksList: [], // array of objects that contain info about links (url, short url, tags, description etc.)
+    newLink: null, // object for creating new link or editing existing one
+    currLink: null, // object (from linksList) that is currently displayed in the container field of web page
+    currLinkIndex: 0, // index of currLink object in linksList array
 
-    user: {username: "Guest"},
+    searchText: "", // text of input element for search
+    queryText: null, // text of search query
+    queryType: "URL", // type of search query
 
-    linksList: [{longUrl: "https://jamtrackcentral.com/artists/alex-hutchings/",
-                 shortUrl: "te.st/2aaa234", views: 0, description: "Alex Hutchings", tagsList: ["jtc", "hutchings", "guitar", "fusion"]},
-                {longUrl: "https://jamtrackcentral.com/artists/guthrie-govan/",
-                 shortUrl: "te.st/2bbb345", views: 5, description: "", tagsList: ["licks", "govan", "guitar", "fusion"]},
-                {longUrl: "https://jamtrackcentral.com/artists/martin-miller/",
-                 shortUrl: "te.st/233aaaa", views: 4, description: "new year games", tagsList: ["guitar", "fusion"]},
-                {longUrl: "https://jamtrackcentral.com/artists/marco-sfogli/",
-                 shortUrl: "te.st/2ggggaa", views: 0, description: "", tagsList: ["jtc", "metal", "guitar"]},
-                {longUrl: "https://docs.npmjs.com/files/package.json",
-                 shortUrl: "te.st/27777aa", views: 0, description: "", tagsList: ["npm", "package"]},
-                {longUrl: "http://www.w3schools.com/angular/angular_animations.asp",
-                 shortUrl: "te.st/23377bb", views: 0, description: "", tagsList: ["angular", "animation"]}],
+    searchMode: null, // search mode
+    createMode: null, // mode of new link creating; createMode===false - link editing mode
 
-    loadData: function () {
+    showTagsList: [], // array for tags editing
 
-    } // loadData
+    user: guest, // current user object
+
+    messageText: '', // error message
+    showMessageText: false,
+
+    clearMessage: function () {
+      var model = this;
+      model.messageText = '';
+      model.showMessageText = false;
+    },
+
+    // sets current object from linksList to display in the container field of web page
+    setCurrLink: function (index) {
+      var model = this;
+
+      if (index > -1 && index < model.linksList.length) {
+        model.currLinkIndex = index;
+        model.currLink = model.linksList[index];
+      }
+    },
+
+    // adds link object at the beginning of linkList
+    addToLinksList: function (linkObj) {
+      var model = this;
+      model.currLink = {};
+
+      for (var key in linkObj) {
+        if (key!=="tags") {
+          model.currLink[key] = linkObj[key];
+        } else { // key==="tags"
+          model.currLink[key] = [].concat(linkObj[key]);
+        }
+      }
+
+      model.linksList.unshift(model.currLink);
+      model.currLinkIndex = 0;
+    },
+
+    // loads initial data from server
+    loadData: function (params) {
+      var model = this;
+
+      model.clearMessage();
+
+      if (!params) {
+        params = {
+          loadUser: true,
+          loadQuery: true
+        };
+      }
+
+      $http({
+        method: 'GET',
+        url: '/load',
+        params: params
+      }).then(function (response) { // successCallback
+
+        if (response.data) {
+          if (response.data.queryText && response.data.queryType) {
+            model.searchMode = true;
+            model.queryText = response.data.queryText;
+            model.queryType = response.data.queryType;
+          }
+
+          if (response.data.user) { // user obect loaded
+            model.user = {id: response.data.user.id,
+                          username: response.data.user.username,
+                          totalClicks: 0};
+
+          } else {
+            if (params.loadUser) {
+              model.user = guest;
+            }
+
+            if (model.user.id) { // user logged in
+              model.user.totalClicks = 0;
+            }
+          }
+
+          if (response.data.message) {
+            model.messageText = response.data.message;
+            model.showMessageText = true;
+            return;
+          }
+
+          if (response.data.linksList) {
+            var linksCount = response.data.linksList.length;
+            model.linksList = response.data.linksList;
+
+            if (!linksCount) {
+              model.messageText = "No results found!";
+              model.showMessageText = true;
+              return;
+            }
+
+            for (var i = 0; i < linksCount; i++) {
+              model.linksList[i].id = model.linksList[i]._id;
+              delete model.linksList[i]._id;
+
+              model.linksList[i].shortUrl = "te.st/2" + model.linksList[i].shortUrlCode.toString(36);
+
+              if (model.user.id && !model.linksList[i].username) {
+                model.linksList[i].username = model.user.username;
+                model.user.totalClicks += model.linksList[i].counter;            
+              }
+            }
+
+            model.setCurrLink(0);
+          }
+        }
+      },
+      function (response) { // errorCallback
+
+        if (response.data && response.data.message) {
+          model.messageText = response.data.message;
+          model.showMessageText = true;
+        }
+      });
+    }, // loadData
+
+    findFunc: findFunc,
+
+    checkValidUrl: function (str) {
+      /*var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
+    '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
+    '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
+    '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
+    '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
+    '(\#[-a-z\d_]*)?$','i'); // fragment locater
+
+      if(!pattern.test(str)) {
+        return false;
+      } else {
+        return true;
+      }*/
+      return true;
+    } // validUrl
 
   } // mainModel
 

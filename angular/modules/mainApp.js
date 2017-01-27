@@ -3,4 +3,6 @@ var myApp = angular.module('linkManagerApp', []).run(function($rootScope, dataSe
 
   $rootScope.linkManagerModel = dataService;
 
+  $rootScope.linkManagerModel.loadData();
+  
 });
