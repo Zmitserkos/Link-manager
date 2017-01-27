@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html id="ng-app" lang="en-US" ng-app="linkManagerApp">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+</head>
+
+<body>
+  <script src="../node_modules/mocha/mocha.js"></script>
+  <script>
+    mocha.setup('bdd');
+  </script>
+
+  <script src="../node_modules/chai/chai.js"></script>
+  <script>
+    var assert = chai.assert;
+  </script>
+
+  <script src="../node_modules/angular/angular.js"></script>
+  <script src="../node_modules/angular-mocks/angular-mocks.js"></script>
+
+  <script src="../angular/modules/mainApp.js"></script>
+  <script src="../angular/models/dataService.js"></script>
+  <script src="../angular/controllers/mainController.js"></script>
+  <script src="../angular/controllers/authorizationController.js"></script>
+  <script src="../angular/controllers/editLinkController.js"></script>
+
+  <script src="./spec/models/data-service-spec.js"></script>
+  <script src="./spec/controllers/main-spec.js"></script>
+  <script src="./spec/controllers/auth-spec.js"></script>
+  <script src="./spec/controllers/edit-link-spec.js"></script>
+
+  <div id="mocha"></div>
+
+  <script>
+    mocha.run();
+  </script>
+</body>
+</html>
