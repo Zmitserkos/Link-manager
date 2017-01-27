@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "set NODE_PATH=. node ./bin/www",
-    "createDb" : "node createDb.js"
+    "createDb": "node createDb.js",
+    "test": "mocha --timeout 3000"
   },
   "dependencies": {
     "express": "~3.4.8",
@@ -15,6 +16,13 @@
     "async": "*",
     "nconf": "*",
     "mongoose": "*",
-    "connect-mongo": "~1.2.0"
+    "connect-mongo": "~1.2.0",
+    "winston": "*"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.6.1",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "supertest": "^2.0.1"
   }
 }

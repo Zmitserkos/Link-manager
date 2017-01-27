@@ -10,7 +10,7 @@ module.exports = function(app) {
   // Main page
   app.get('/main', require('./main').get);
 
-  // Loading data (user, links)
+  // Loading data (user, links, current query)
   app.get('/load', require('./load').get);
 
   // Save query
@@ -25,9 +25,9 @@ module.exports = function(app) {
   // Log out
   app.post('/logout', require('./logout').post);
 
-  //
+  // Safe link attributes
   app.post('/link', require('./link').post);
 
-  //
+  // Create new link
   app.post('/newlink', require('./newlink').post);
 }

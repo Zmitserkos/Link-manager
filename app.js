@@ -1,8 +1,10 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var httpError = require('error').httpError;
 
 var config = require('config');
+var log = require('lib/log')(module);
 var mongoose = require('lib/mongoose');
 mongoose.set('debug', true);
 
@@ -22,11 +24,12 @@ app.use(express.favicon());
 if (app.get('env') === 'development') {
   app.use(express.logger({immediate: true, format: 'default'}));
 }
-console.log("dsdsds "+app.get('env'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+
+app.use(require('middleware/sendHttpError'));
 
 var MongoStore = require('connect-mongo')(express);
 
@@ -46,33 +49,26 @@ require('routes')(app);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  if (typeof err == "number") {
+    err = new httpError(err);
+  }
+  next(err);
 });
 
-/// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-      /*var errorHandler = express.errorHandler();
-      errorHandler(err, req, res, next);*/
-
-      res.send(401, "Username does not exist!");
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
+// error handlers
 app.use(function(err, req, res, next) {
-  //res.send(500);
+  if (err instanceof httpError) {
+    res.sendHttpError(err);
+  } else
+  if (app.get('env') === 'development') { // development error handler (will print stacktrace)
+    var errorHandler = express.errorHandler();
+    errorHandler(err, req, res, next);
+  } else { // production error handler (no stacktraces leaked to user)
+    log.error(err);
+    err = new httpError(500);
+    res.sendHttpError(err);
+  }
 
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
 });
 
 

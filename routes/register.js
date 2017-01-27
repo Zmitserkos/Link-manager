@@ -1,39 +1,37 @@
 
 var User = require('models/user').User;
-
 var async = require('async');
+var httpError = require('error').httpError;
 
 exports.post = function(req, res, next) {
 
   var username = req.body.username;
   var password = req.body.password;
 
-  if (!req.session.user) {
-    async.waterfall([
-      function(callback) {
-        User.findOne({username: username}, callback);
-      },
-      function(user, callback) {
-        if (user) return next(404);
+  if (req.session.user) return next(new httpError(403, "Forbidden for authorized user!"));
 
-        var user = new User({username: username, password: password});
+  async.waterfall([
+    function(callback) {
+      User.findOne({username: username}, callback);
+    },
+    function(user, callback) {
+      if (user) return next(new httpError(200, "Username exists!")); // 403
 
-        user.save(function (err) {
-          if (err) return next(err);
-          //200 OK
-          callback(null, user);
-        });
-      }
-    ], function(err, user) {
-      if (err) return next(err);
+      var user = new User({username: username, password: password});
 
-      req.session.user = user._id;
-      req.session.queryText = null;
-      req.session.queryType = null;
-      
-      res.send({});
-    });
-  } else {
-    // error 403
-  }
+      user.save(function (err) {
+        if (err) return next(err);
+
+        callback(null, user);
+      });
+    }
+  ], function(err, user) {
+    if (err) return next(err);
+
+    req.session.user = user._id;
+    req.session.queryText = null;
+    req.session.queryType = null;
+
+    res.send({});
+  });
 }

@@ -12,8 +12,19 @@ mainApp.controller('mainController', function($scope, $http, $window, dataServic
 
   $scope.logOut = function () {
     $http({method:'POST', url:'/logout'})
-    .success(function (result) {
+    .then(function (response) { // successCallback
+      if (response.data && response.data.message) {
+        $scope.linkManagerModel.messageText = response.data.message;
+        $scope.linkManagerModel.showMessageText = true;
+        return;
+      }
+
       $window.location = '/';
+    }, function (response) { // errorCallback
+      if (response.data && response.data.message) {
+        $scope.linkManagerModel.messageText = response.data.message;
+        $scope.linkManagerModel.showMessageText = true;
+      }
     });
   }
 
@@ -60,7 +71,7 @@ mainApp.controller('mainController', function($scope, $http, $window, dataServic
   // button "Search"
   $scope.searchByUrl = function() {
     $scope.linkManagerModel.searchMode = true;
-    $scope.linkManagerModel.queryType = "URL";
+    $scope.linkManagerModel.queryType = "url";
 
     var searchText = $scope.linkManagerModel.searchText;
     $scope.linkManagerModel.queryText = searchText;
@@ -91,10 +102,20 @@ mainApp.controller('mainController', function($scope, $http, $window, dataServic
         url:'/load',
         data: {searchByUrl: true, shortUrlCode: shortUrlCode}
       })
-      .success(function (result) {
-        window.location.href = '/main';
+      .then(function (response) { // successCallback
+        if (response.data && response.data.message) {
+          $scope.linkManagerModel.messageText = response.data.message;
+          $scope.linkManagerModel.showMessageText = true;
+          return;
+        }
+
+        $window.location = '/main';
+      }, function (response) { // errorCallback
+        if (response.data && response.data.message) {
+          $scope.linkManagerModel.messageText = response.data.message;
+          $scope.linkManagerModel.showMessageText = true;
+        }
       });
-      
     }
   } // searchLink
 

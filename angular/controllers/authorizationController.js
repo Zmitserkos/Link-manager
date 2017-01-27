@@ -5,9 +5,6 @@ mainApp.controller('authorizationController', function($scope, $http, $window, d
   // set the model
   $scope.linkManagerModel = dataService;
 
-  $scope.errorText = '';
-  $scope.showErrorText = false;
-
   $scope.user = {username: '', password: '', passwordConf : ''}
 
   $scope.activate = function () {
@@ -15,7 +12,6 @@ mainApp.controller('authorizationController', function($scope, $http, $window, d
   }
 
   $scope.register = function () {
-
     if ($scope.user.password !== $scope.user.passwordConf) {
       $scope.user = {username: '', password: '', passwordConf : ''}
 
@@ -28,28 +24,42 @@ mainApp.controller('authorizationController', function($scope, $http, $window, d
       method: 'POST',
       url: '/register',
       data: {username: $scope.user.username, password: $scope.user.password}
-    }).then(function successCallback(response) {
+    }).then(function (response) { // successCallback
+
+      if (response.data && response.data.message) {
+        $scope.errorText = response.data.message;
+        $scope.showErrorText = true;
+        return;
+      }
 
       $window.location = '/main';
-    }, function errorCallback(response) {
-      $scope.errorText = response.data;
-      $scope.showErrorText = true;
+    }, function (response) { // errorCallback
+      
+      if (response.data && response.data.message) {
+        $scope.errorText = response.data.message;
+        $scope.showErrorText = true;
+      }
     });
   }
 
   $scope.login = function () {
-
     $http({
       method: 'POST',
       url: '/login',
       data: {username: $scope.user.username, password: $scope.user.password}
     }).then(function(response) { // successCallback
-//debugger;
+      if (response.data && response.data.message) {
+        $scope.errorText = response.data.message;
+        $scope.showErrorText = true;
+        return;
+      }
+
       $window.location = '/main';
     }, function(response) { // errorCallback
-//debugger;
-      $scope.errorText = response.data;
-      $scope.showErrorText = true;
+      if (response.data && response.data.message) {
+        $scope.errorText = response.data.message;
+        $scope.showErrorText = true;
+      }
     });
   }
 

@@ -145,6 +145,12 @@ a {
   border: 1px solid rgba(120, 120, 120, 1);
 }
 
+#main-message-block {
+  color: rgba(220, 120, 140, 1);
+  font-size: 16px;
+  padding: 10px 30px;
+}
+
 #main-info-block {
   text-align: left;
   font-family: arial;
@@ -223,6 +229,22 @@ a {
 .main-additional-headed {background: rgba(170, 170, 170, 1);}
 
 .main-link {color: rgba(50, 80, 200, 1);}
+
+
+#error-block {
+  margin: 40px;
+}
+
+.error-text {
+  font-weight: normal;
+  color: rgba(220, 120, 140, 1);
+}
+
+.error-param {
+  color: rgba(50, 50, 50, 1);
+  display: inline;
+}
+
 
 
 /*screen-xs*/

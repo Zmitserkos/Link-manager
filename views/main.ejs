@@ -71,7 +71,7 @@
           </span>
 
 
-          <div class="visible-xs">
+          <div class="visible-xs" ng-show="linkManagerModel.currLink">
             <p class="main-info-text">
               Short URL: <b class="main-info-data">{{linkManagerModel.currLink.shortUrl}}</b>
               <button type="button" class="main-container-button" data-toggle="modal"
@@ -98,6 +98,12 @@
             </p>
 
           </div>
+        </div>
+      </div>
+
+      <div id="main-message-block" class="row" ng-show="linkManagerModel.showMessageText">
+        <div class="col-xs-12">
+          <p>{{linkManagerModel.messageText}}</p>           
         </div>
       </div>
 

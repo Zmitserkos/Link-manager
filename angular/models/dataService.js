@@ -43,6 +43,12 @@ mainApp.factory('dataService', function($http) {
     messageText: '', // error message
     showMessageText: false,
 
+    clearMessage: function () {
+      var model = this;
+      model.messageText = '';
+      model.showMessageText = false;
+    },
+
     // sets current object from linksList to display in the container field of web page
     setCurrLink: function (index) {
       var model = this;
@@ -74,9 +80,12 @@ mainApp.factory('dataService', function($http) {
     loadData: function (params) {
       var model = this;
 
+      model.clearMessage();
+
       if (!params) {
         params = {
-          loadUser: true
+          loadUser: true,
+          loadQuery: true
         };
       }
 
@@ -85,8 +94,14 @@ mainApp.factory('dataService', function($http) {
         url: '/load',
         params: params
       }).then(function (response) { // successCallback
-debugger;
-        if (response) {
+
+        if (response.data) {
+          if (response.data.queryText && response.data.queryType) {
+            model.searchMode = true;
+            model.queryText = response.data.queryText;
+            model.queryType = response.data.queryType;
+          }
+
           if (response.data.user) { // user obect loaded
             model.user = {id: response.data.user.id,
                           username: response.data.user.username,
@@ -102,9 +117,21 @@ debugger;
             }
           }
 
+          if (response.data.message) {
+            model.messageText = response.data.message;
+            model.showMessageText = true;
+            return;
+          }
+
           if (response.data.linksList) {
             var linksCount = response.data.linksList.length;
             model.linksList = response.data.linksList;
+
+            if (!linksCount) {
+              model.messageText = "No results found!";
+              model.showMessageText = true;
+              return;
+            }
 
             for (var i = 0; i < linksCount; i++) {
               model.linksList[i].id = model.linksList[i]._id;
@@ -122,10 +149,11 @@ debugger;
           }
         }
       },
-      function (response) { // errorCallback
-debugger;
-        model.messageText = response.data;
-        model.showMessageText = true;
+      function (response) { // errorCallback      
+        if (response.data && response.data.message) {
+          model.messageText = response.data.message;
+          model.showMessageText = true;
+        }
       });
     }, // loadData
 
