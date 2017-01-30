@@ -52,6 +52,8 @@ mainApp.controller('mainController', function($scope, $http, $window, dataServic
     $scope.linkManagerModel.queryType = "tag";
     $scope.linkManagerModel.queryText = tag;
 
+    $scope.linkManagerModel.searchText = "";
+
     if (!tag) {
       $scope.linkManagerModel.messageText = "Tag is empty!";
       $scope.linkManagerModel.showMessageText = true;
@@ -121,11 +123,12 @@ mainApp.controller('mainController', function($scope, $http, $window, dataServic
 
   $scope.loadProfile = function () {
     $scope.linkManagerModel.searchMode = false;
+    $scope.linkManagerModel.searchText = "";
     $scope.linkManagerModel.loadData({loadProfile: true});
   } // loadProfile
 
   $scope.showEdit = function () {
-    
+
     return true;// $scope.linkManagerModel.currLink.username === $scope.linkManagerModel.user.username;
   }
 

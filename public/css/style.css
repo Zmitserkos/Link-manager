@@ -162,6 +162,7 @@ a {
 
 .main-info-text {
   margin: 2px 0;
+  overflow: hidden;
 }
 
 .main-query-text {
@@ -170,6 +171,7 @@ a {
 
 .main-info-data {
   color: rgba(60, 60, 60, 1);
+  overflow: hidden;
 }
 
 #main-sidebar {
