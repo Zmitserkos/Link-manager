@@ -16,3 +16,7 @@ node createDb.js
 4) run the application:
 
 node ./bin/www
+
+5) insert into the browser:
+
+localhost:3000
